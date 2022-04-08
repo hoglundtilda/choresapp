@@ -1,0 +1,5 @@
+*.yaml
+*.sql
+*.md
+
+scripts

@@ -1,0 +1,36 @@
+{
+  "folders": [
+    {
+      "name": "Chores App",
+      "path": "."
+    }
+  ],
+  "extensions": {
+    "recommendations": [
+      "EditorConfig.EditorConfig",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "cschleiden.vscode-github-actions"
+    ]
+  },
+  "settings": {
+    "files.exclude": {
+      "node_modules": true
+    },
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "npm.packageManager": "yarn",
+    "eslint.validate": ["javascript", "typescript"],
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    },
+    "[javascript]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
+  }
+}

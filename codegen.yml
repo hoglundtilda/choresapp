@@ -1,0 +1,25 @@
+schema: 'src/graphql/schemas/*.ts'
+documents: null
+generates:
+  src/_generated/graphql-schema.json:
+    plugins:
+      - introspection
+  src/_generated/graphql.ts:
+    plugins:
+      - add:
+          content: '/* tslint:disable */'
+      - 'typescript'
+      - 'typescript-resolvers'
+    config:
+      useIndexSignature: true
+      # Fix optional mutations etc
+      avoidOptionals:
+        field: true
+        object: true
+        inputValue: false
+      onlyResolveTypeForInterfaces: true
+
+config:
+  contextType: ../lib/interface/IPrismaContext#IPrismaContext
+  scalars:
+    DateTime: Date
