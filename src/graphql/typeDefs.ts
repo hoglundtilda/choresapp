@@ -4,7 +4,7 @@ import {
   // choreSchema,
   // timeRecordSchema,
   userSchema
-} from './schemas'
+} from './schemas/userSchema'
 
 export const typeDefs = [
   // categorySchema,

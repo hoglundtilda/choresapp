@@ -15,10 +15,8 @@ export const startServer = async () => {
 
     const app = express()
     const httpServer = http.createServer(app)
-    console.log('1')
 
     const apolloServer = createApolloServer()
-    console.log('2')
 
     await configureApp(app, apolloServer)
 
