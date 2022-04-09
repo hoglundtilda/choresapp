@@ -6,6 +6,9 @@
     },
     {
       "path": "..\\..\\circl-product-registration"
+    },
+    {
+      "path": "..\\..\\circl-user"
     }
   ],
   "extensions": {

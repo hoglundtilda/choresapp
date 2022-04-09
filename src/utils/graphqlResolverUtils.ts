@@ -4,6 +4,9 @@ import {
   Resolvers
 } from '../_generated/graphql'
 
+//  TODO Understand why this would be prefered to use
+//       and why it doesnt work in my case
+
 export function asPartialQueryResolver<
   T extends Partial<Required<QueryResolvers>>
 >(t: T) {

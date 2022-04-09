@@ -1,6 +1,5 @@
 // import * as http from 'http'
 import { ApolloServer } from 'apollo-server-express'
-import { buildSubgraphSchema } from '@apollo/subgraph'
 
 import { typeDefs } from './typeDefs'
 import { resolvers } from './resolvers'
@@ -11,13 +10,9 @@ export const createApolloServer = () =>
 {
   try {
     return new ApolloServer({
-      // need subgraph to build from separate files (?)
-      schema: buildSubgraphSchema({
-        typeDefs: typeDefs,
-        resolvers: resolvers
-      }),
+      typeDefs: typeDefs,
+      resolvers: resolvers,
       introspection: true,
-
       context: context
     })
   } catch (e) {

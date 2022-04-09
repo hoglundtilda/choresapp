@@ -1,11 +1,11 @@
 import { gql } from 'apollo-server-core'
 
-export const userSchema = gql`
-  extend type Query {
+const userSchema = gql`
+   type Query {
     user(userId: ID!): User
   }
 
-  extend type Mutation {
+   type Mutation {
     createUser(input: UserCreateInput!): User
     updateUser(userId: ID!, input: UserUpdateInput!): User
   }
@@ -27,3 +27,5 @@ export const userSchema = gql`
     displayName: String
   }
 `
+
+export default userSchema

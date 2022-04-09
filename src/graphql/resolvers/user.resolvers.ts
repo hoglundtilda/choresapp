@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import { MutationResolvers, QueryResolvers, Resolvers } from '../../_generated/graphql'
 
 
