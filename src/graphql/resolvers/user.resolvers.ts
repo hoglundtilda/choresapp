@@ -1,58 +1,68 @@
 import { User } from '@prisma/client';
+import { MutationResolvers, QueryResolvers } from '../../_generated/graphql'
 
 // TODO types
-export const userQueryResolver = ({
-  user: async (_: any, { userId }: any, ctx: any) => {
-    // if (!userId) throw new Error('UserId not provided')
-    // return prisma.user.findFirst({ where: { userId: String(userId) } })
-    // const user = await findUserById(userId)
-    // if (!user) return null
-    // return user
-    return ctx.prisma.user.findUnique({
-      where: {
-        id: userId,
-      },
-    });
+export const userQueryResolver: QueryResolvers = ({
+  user: async (_, { userId }, ctx) => {
+    if (!userId) throw new Error('UserId not provided')
+    try {
+      return ctx.prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
+    } catch (e) {
+      throw new Error('Error findUserById', e)
+    }
+
   }
 })
 
-// export const userMutationResolver = asPartialMutationResolver({
-//   createUser: async (_, { input }): Promise<any> => {
-//     // if (!input) return 'No input'
-//     // try {
-//     //   return prisma.user.create({
-//     //     data: {
-//     //       email: input.email,
-//     //       display_name: input.displayName
-//     //     }
-//     //   })
-//     // } catch (e) {
-//     //   return { Error: e, message: 'Error creating user' }
-//     // }
+export const userMutationResolver: MutationResolvers = ({
+  createUser: async (_, { input }, ctx) => {
+    if (!input) throw new Error('No input provided')
+    try {
+      return ctx.prisma.user.create({
+        data: {
+          email: input.email,
+          display_name: input.displayName
+        }
+      })
+    } catch (e) {
+      throw new Error('Error createUser', e)
+    }
 
-//   },
+  },
 
-//   updateUser: async (_, { userId, input }, ctx): Promise<any> => {
-//     // if (!userId) throw new Error('Missing userId')
+  updateUser: async (_, { userId, input }, ctx) => {
+    if (!userId) throw new Error('No userId provided')
 
-//     // if (input.displayName) {
-//     //   return prisma.user.update({
-//     //     where: { id: String(userId) },
-//     //     data: {
-//     //       display_name: input.displayName
-//     //     }
-//     //   })
-//     // }
+    try {
+      if (input.displayName) {
+        return ctx.prisma.user.update({
+          where: { id: String(userId) },
+          data: {
+            display_name: input.displayName
+          }
+        })
+      } else {
+        throw new Error('No input provided')
 
-//     // return 'No displayName given'
-//   }
-// })
+      }
+
+
+    } catch (e) {
+      throw new Error('Error updateUser', e)
+    }
+
+  }
+})
 
 export const userObjectResolver = ({
   User: {
-
     userId: (user: User) => user.id,
     email: (user: User) => user.email,
     displayName: (user: User) => user.display_name
   }
 })
+
