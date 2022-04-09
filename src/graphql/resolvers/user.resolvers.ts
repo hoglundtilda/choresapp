@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
-import { MutationResolvers, QueryResolvers } from '../../_generated/graphql'
+import { MutationResolvers, QueryResolvers, Resolvers } from '../../_generated/graphql'
 
-// TODO types
+
 export const userQueryResolver: QueryResolvers = ({
   user: async (_, { userId }, ctx) => {
     if (!userId) throw new Error('UserId not provided')
@@ -58,11 +58,11 @@ export const userMutationResolver: MutationResolvers = ({
   }
 })
 
-export const userObjectResolver = ({
+export const userObjectResolver: Resolvers = ({
   User: {
-    userId: (user: User) => user.id,
-    email: (user: User) => user.email,
-    displayName: (user: User) => user.display_name
+    userId: (user) => user.id,
+    email: (user) => user.email,
+    displayName: (user) => user.display_name
   }
 })
 

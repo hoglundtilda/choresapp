@@ -13,7 +13,6 @@ generates:
       - 'typescript-resolvers'
     config:
       useIndexSignature: true
-      # Fix optional mutations etc
       avoidOptionals:
         field: true
         object: true

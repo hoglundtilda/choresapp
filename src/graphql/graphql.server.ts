@@ -11,6 +11,7 @@ export const createApolloServer = () =>
 {
   try {
     return new ApolloServer({
+      // need subgraph to build from separate files (?)
       schema: buildSubgraphSchema({
         typeDefs: typeDefs,
         resolvers: resolvers
