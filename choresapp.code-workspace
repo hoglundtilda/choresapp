@@ -3,6 +3,9 @@
     {
       "name": "Chores App",
       "path": "."
+    },
+    {
+      "path": "..\\..\\circl-product-registration"
     }
   ],
   "extensions": {

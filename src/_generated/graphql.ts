@@ -1,6 +1,7 @@
 /* tslint:disable */
 import { GraphQLResolveInfo } from 'graphql';
-import { IPrismaContext } from '../lib/interface/IPrismaContext';
+import { User as UserModel } from '@prisma/client/index.d';
+import { Context } from '../graphql/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -18,8 +19,8 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: Maybe<User>;
-  updateUser: Maybe<User>;
+  createUser: User;
+  updateUser: User;
 };
 
 
@@ -35,12 +36,12 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  user: Maybe<User>;
+  user: User;
 };
 
 
 export type QueryUserArgs = {
-  email: Scalars['String'];
+  userId: Scalars['ID'];
 };
 
 export type User = {
@@ -134,7 +135,7 @@ export type ResolversTypes = ResolversObject<{
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  User: ResolverTypeWrapper<User>;
+  User: ResolverTypeWrapper<UserModel>;
   UserCreateInput: UserCreateInput;
   UserUpdateInput: UserUpdateInput;
 }>;
@@ -146,28 +147,28 @@ export type ResolversParentTypes = ResolversObject<{
   Mutation: {};
   Query: {};
   String: Scalars['String'];
-  User: User;
+  User: UserModel;
   UserCreateInput: UserCreateInput;
   UserUpdateInput: UserUpdateInput;
 }>;
 
-export type MutationResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
-  updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
+export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
+  createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  updateUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
 }>;
 
-export type QueryResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'email'>>;
+export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'userId'>>;
 }>;
 
-export type UserResolvers<ContextType = IPrismaContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type Resolvers<ContextType = IPrismaContext> = ResolversObject<{
+export type Resolvers<ContextType = Context> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

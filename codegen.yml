@@ -1,3 +1,4 @@
+overwrite: true
 schema: 'src/graphql/schemas/*.ts'
 documents: null
 generates:
@@ -18,8 +19,11 @@ generates:
         object: true
         inputValue: false
       onlyResolveTypeForInterfaces: true
+      mapperTypeSuffix: Model
+      mappers:
+        User: '@prisma/client/index.d#User'
 
 config:
-  contextType: ../lib/interface/IPrismaContext#IPrismaContext
+  contextType: ../graphql/context#Context
   scalars:
     DateTime: Date
