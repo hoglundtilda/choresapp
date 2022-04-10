@@ -1,23 +1,25 @@
-import { MutationResolvers, QueryResolvers, Resolvers } from '../../_generated/graphql'
+import {
+  MutationResolvers,
+  QueryResolvers,
+  Resolvers
+} from '../../_generated/graphql'
 
-
-export const userQueryResolver: QueryResolvers = ({
+export const userQueryResolver: QueryResolvers = {
   user: async (_, { userId }, ctx) => {
-    if (!userId) throw new Error('UserId not provided')
+    if (!ctx.user) throw new Error('User not authenticated')
     try {
       return ctx.prisma.user.findUnique({
         where: {
-          id: userId,
-        },
-      });
+          id: userId
+        }
+      })
     } catch (e) {
       throw new Error('Error findUserById', e)
     }
-
   }
-})
+}
 
-export const userMutationResolver: MutationResolvers = ({
+export const userMutationResolver: MutationResolvers = {
   createUser: async (_, { input }, ctx) => {
     if (!input) throw new Error('No input provided')
     try {
@@ -30,7 +32,6 @@ export const userMutationResolver: MutationResolvers = ({
     } catch (e) {
       throw new Error('Error createUser', e)
     }
-
   },
 
   updateUser: async (_, { userId, input }, ctx) => {
@@ -46,22 +47,17 @@ export const userMutationResolver: MutationResolvers = ({
         })
       } else {
         throw new Error('No input provided')
-
       }
-
-
     } catch (e) {
       throw new Error('Error updateUser', e)
     }
-
   }
-})
+}
 
-export const userObjectResolver: Resolvers = ({
+export const userObjectResolver: Resolvers = {
   User: {
     userId: (user) => user.id,
     email: (user) => user.email,
     displayName: (user) => user.display_name
   }
-})
-
+}

@@ -3,53 +3,53 @@
 module.exports = {
   root: true,
 
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
 
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: "module",
+    sourceType: 'module'
   },
 
   env: {
     browser: false,
     es6: true,
-    node: true,
+    node: true
   },
 
-  extends: ["standard", "prettier"],
+  extends: ['standard', 'prettier'],
 
-  plugins: ["@typescript-eslint", "prettier", "jest"],
+  plugins: ['@typescript-eslint', 'prettier', 'jest'],
 
   rules: {
-    "import/order": [
-      "error",
+    'import/order': [
+      'error',
       {
         alphabetize: {
-          order: "asc",
-          caseInsensitive: false,
+          order: 'asc',
+          caseInsensitive: false
         },
-        "newlines-between": "always",
+        'newlines-between': 'always',
         groups: [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index",
+          'builtin',
+          'external',
+          'internal',
+          'parent',
+          'sibling',
+          'index'
         ],
-        pathGroupsExcludedImportTypes: ["builtin"],
-      },
+        pathGroupsExcludedImportTypes: ['builtin']
+      }
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
+    '@typescript-eslint/no-unused-vars': [
+      'warn',
       {
-        args: "after-used",
-        caughtErrors: "all",
-      },
+        args: 'after-used',
+        caughtErrors: 'all'
+      }
     ],
-    "@typescript-eslint/no-useless-constructor": "error",
+    '@typescript-eslint/no-useless-constructor': 'error'
     // 'no-console': 'error'
   },
 
-  ignorePatterns: ["node_modules/", "@generated-types", "bin", "_generated/"],
-};
+  ignorePatterns: ['node_modules/', '@generated-types', 'bin', '_generated/']
+}

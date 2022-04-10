@@ -14,13 +14,18 @@ export const startServer = async () => {
     await ConnectPrismaClient()
 
     const app = express()
-    const httpServer = http.createServer(app)
+    let httpServer
+    try {
+      httpServer = http.createServer(app)
 
-    const apolloServer = createApolloServer()
+      const apolloServer = createApolloServer()
 
-    await configureApp(app, apolloServer)
+      await configureApp(app, apolloServer)
+      httpServer.listen(PORT)
+    } catch (e) {
+      console.error('Error', e)
+    }
 
-    httpServer.listen(PORT)
     logger.info(`Srver started: http://localhost:${PORT}`)
 
     return httpServer

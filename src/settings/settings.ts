@@ -11,7 +11,9 @@ export const RequiredSettings: Record<string, string> = {
   databaseUser: ensureEnv('DB_USER'),
   databasePassword: ensureEnv('DB_PW'),
   databaseName: ensureEnv('DB_NAME'),
-  databasePort: ensureEnv('DB_PORT')
+  databasePort: ensureEnv('DB_PORT'),
+  googleClientId: ensureEnv('GOOGLE_CLIENT_ID'),
+  googleClientSecret: ensureEnv('GOOGLE_CLIENT_SECRET')
 }
 
 // eslint-disable-next-line
