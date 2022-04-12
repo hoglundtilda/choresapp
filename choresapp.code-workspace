@@ -3,12 +3,6 @@
     {
       "name": "Chores App",
       "path": "."
-    },
-    {
-      "path": "..\\..\\circl-product-registration"
-    },
-    {
-      "path": "..\\..\\circl-user"
     }
   ],
   "extensions": {
@@ -37,6 +31,8 @@
     "[typescript]": {
       "editor.formatOnSave": true,
       "editor.defaultFormatter": "vscode.typescript-language-features"
-    }
+    },
+    "editor.formatOnSave": true,
+    "sort-imports.on-save": true
   }
 }
