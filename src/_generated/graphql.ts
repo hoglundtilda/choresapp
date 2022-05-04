@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { GraphQLResolveInfo } from 'graphql';
 import { User as UserModel } from '@prisma/client/index.d';
-import { Context } from '../graphql/context';
+import { Context } from '../schema/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -19,13 +19,7 @@ export type Scalars = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: Maybe<User>;
   updateUser: Maybe<User>;
-};
-
-
-export type MutationCreateUserArgs = {
-  input: UserCreateInput;
 };
 
 
@@ -36,6 +30,7 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  login: Maybe<User>;
   user: Maybe<User>;
 };
 
@@ -48,6 +43,7 @@ export type User = {
   __typename?: 'User';
   displayName: Scalars['String'];
   email: Scalars['String'];
+  googleId: Scalars['String'];
   userId: Scalars['ID'];
 };
 
@@ -153,17 +149,18 @@ export type ResolversParentTypes = ResolversObject<{
 }>;
 
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'userId'>>;
 }>;
 
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  googleId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

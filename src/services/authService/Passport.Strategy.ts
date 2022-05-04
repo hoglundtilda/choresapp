@@ -1,31 +1,67 @@
-const passport = require('passport')
-const GoogleStrategy = require('passport-google-oauth2').Strategy
-import { User } from '@prisma/client'
-import { VerifyCallback } from 'passport-google-oauth2'
+// const GoogleStrategy = require('passport-google-oauth2').Strategy
+
+// import { User, Prisma } from '@prisma/client'
+
+import passport from "passport";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+
+import { prisma } from '../../db/db.connection'
 import { RequiredSettings } from '../../settings/settings'
 
-passport.serializeUser(function (user: User, done: VerifyCallback) {
-  done(null, user)
-})
+// import { Context } from '../../schema/context';
 
-passport.deserializeUser(function (user: User, done: VerifyCallback) {
-  done(null, user)
-})
 
-export const googleStrategy = new GoogleStrategy(
-  {
-    clientID: RequiredSettings.googleClientId,
-    clientSecret: RequiredSettings.googleClientSecret,
-    callbackURL: 'http://localhost:5000/google/callback',
-    passReqToCallback: true
-  },
-  function (
-    _req: Request,
-    _accessToken: string,
-    _refreshToken: string,
-    profile: any,
-    done: VerifyCallback
-  ) {
-    return done(null, profile)
-  }
-)
+// import session from "express-session";
+
+
+
+
+
+
+
+// const GoogleStrategy = require('passport-google-oauth20').Strategy;
+export const findOrCreate = async () => {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: RequiredSettings.googleClientId as string,
+        clientSecret: RequiredSettings.googleClientSecret as string,
+        callbackURL: "/api/oauth2/redirect/google", // this is the endpoint you registered on google while creating your app. This endpoint would exist on your application for verifying the authentication
+      },
+      async (_accessToken, _refreshToken, profile, cb: any) => {
+        if (profile.id) {
+          try {
+            prisma.user.findUnique({
+              where: {
+                google_id: profile.id
+              }
+            })
+            return cb(null, profile);
+          } catch (e: any) {
+            throw new Error(e);
+          }
+        }
+
+      }
+    )
+  );
+
+  passport.authenticate("google", { scope: ["profile", "email"] })()
+
+}
+
+// export const initPassport = (app: any) => {
+//   //init's the app session
+//   app.use(
+//     session({
+//       resave: false,
+//       saveUninitialized: true,
+//       secret: RequiredSettings.sessionSecret || 'secret',
+//     })
+//   );
+//   //init passport
+//   // app.use(passport.initialize());
+//   // app.use(passport.session());
+// };
+
+

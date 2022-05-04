@@ -4,7 +4,8 @@
     "outDir": "build",
     "removeComments": true,
     "target": "ES6",
-
+    // "target": "esnext",
+    "module": "commonjs",
     "baseUrl": ".",
     "esModuleInterop": true,
     "moduleResolution": "node",
@@ -12,7 +13,7 @@
     "isolatedModules": true,
 
     "paths": {
-      "@graphql/*": ["src/graphql/*"],
+      "@graphql/*": ["src/schema/*"],
       "types/*": ["src/types/*"],
       "@db/*": ["src/db/*"],
       "@settings/*": ["src/settings/*"],

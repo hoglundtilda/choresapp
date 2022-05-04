@@ -49,5 +49,5 @@ model User {
   // chores       Chore[]
   // categories   Category[]
   // password     String @db.VarChar(82)
-  // salt         String
+  google_id    String @unique
 }

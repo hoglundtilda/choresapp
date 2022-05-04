@@ -1,10 +1,9 @@
 import { Resolvers } from '../_generated/graphql'
-
 import {
-  userQueryResolver,
   userMutationResolver,
-  userObjectResolver
-} from './resolvers/user.resolvers'
+  userObjectResolver,
+  userQueryResolver
+} from './user/user.resolvers'
 
 export const resolvers: Resolvers = {
   Query: {
@@ -17,3 +16,4 @@ export const resolvers: Resolvers = {
 
   ...userObjectResolver
 }
+

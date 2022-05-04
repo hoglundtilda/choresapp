@@ -1,4 +1,4 @@
-import userSchema from './schemas/userSchema'
+import userSchema from './user/user.schema'
 
 export const typeDefs = [
   // categorySchema,

@@ -20,6 +20,7 @@ export type User = {
   id: string
   email: string
   display_name: string
+  google_id: string
 }
 
 
@@ -762,18 +763,21 @@ export namespace Prisma {
     id: string | null
     email: string | null
     display_name: string | null
+    google_id: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
     email: string | null
     display_name: string | null
+    google_id: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     email: number
     display_name: number
+    google_id: number
     _all: number
   }
 
@@ -782,18 +786,21 @@ export namespace Prisma {
     id?: true
     email?: true
     display_name?: true
+    google_id?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     email?: true
     display_name?: true
+    google_id?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     email?: true
     display_name?: true
+    google_id?: true
     _all?: true
   }
 
@@ -879,6 +886,7 @@ export namespace Prisma {
     id: string
     email: string
     display_name: string
+    google_id: string
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -902,6 +910,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     display_name?: boolean
+    google_id?: boolean
   }
 
   export type UserGetPayload<
@@ -1556,7 +1565,8 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
-    display_name: 'display_name'
+    display_name: 'display_name',
+    google_id: 'google_id'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1590,23 +1600,27 @@ export namespace Prisma {
     id?: StringFilter | string
     email?: StringFilter | string
     display_name?: StringFilter | string
+    google_id?: StringFilter | string
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
+    google_id?: SortOrder
   }
 
   export type UserWhereUniqueInput = {
     id?: string
     email?: string
+    google_id?: string
   }
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
+    google_id?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -1619,48 +1633,56 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     email?: StringWithAggregatesFilter | string
     display_name?: StringWithAggregatesFilter | string
+    google_id?: StringWithAggregatesFilter | string
   }
 
   export type UserCreateInput = {
     id?: string
     email: string
     display_name: string
+    google_id: string
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     email: string
     display_name: string
+    google_id: string
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
+    google_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
+    google_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateManyInput = {
     id?: string
     email: string
     display_name: string
+    google_id: string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
+    google_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
+    google_id?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter = {
@@ -1682,18 +1704,21 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
+    google_id?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
+    google_id?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
+    google_id?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {

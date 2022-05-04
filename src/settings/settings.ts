@@ -13,7 +13,8 @@ export const RequiredSettings: Record<string, string> = {
   databaseName: ensureEnv('DB_NAME'),
   databasePort: ensureEnv('DB_PORT'),
   googleClientId: ensureEnv('GOOGLE_CLIENT_ID'),
-  googleClientSecret: ensureEnv('GOOGLE_CLIENT_SECRET')
+  googleClientSecret: ensureEnv('GOOGLE_CLIENT_SECRET'),
+  sessionSecret: ensureEnv('SESSION_SECRET')
 }
 
 // eslint-disable-next-line

@@ -17,7 +17,7 @@
     "files.exclude": {
       "node_modules": true
     },
-    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.tsdk": "Chores App\\node_modules\\typescript\\lib",
     "typescript.enablePromptUseWorkspaceTsdk": true,
     "npm.packageManager": "yarn",
     "eslint.validate": ["javascript", "typescript"],

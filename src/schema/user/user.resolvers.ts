@@ -4,9 +4,11 @@ import {
   Resolvers
 } from '../../_generated/graphql'
 
+// import { findOrCreate } from '../../services/authService/Passport.Strategy'
+
 export const userQueryResolver: QueryResolvers = {
   user: async (_, { userId }, ctx) => {
-    if (!ctx.user) throw new Error('User not authenticated')
+    // if (!ctx.user) throw new Error('User not authenticated')
     try {
       return ctx.prisma.user.findUnique({
         where: {
@@ -17,22 +19,27 @@ export const userQueryResolver: QueryResolvers = {
       throw new Error('Error findUserById', e)
     }
   }
+
+  // login: async (parent, { }, ctx) => {
+  //   return ctx.getUser()
+  // }
 }
 
 export const userMutationResolver: MutationResolvers = {
-  createUser: async (_, { input }, ctx) => {
-    if (!input) throw new Error('No input provided')
-    try {
-      return ctx.prisma.user.create({
-        data: {
-          email: input.email,
-          display_name: input.displayName
-        }
-      })
-    } catch (e) {
-      throw new Error('Error createUser', e)
-    }
-  },
+  // createUser: async (_, { input }, ctx) => {
+  //   if (!input) throw new Error('No input provided')
+
+  //   try {
+  //     return ctx.prisma.user.create({
+  //       data: {
+  //         email: input.email,
+  //         display_name: input.displayName
+  //       }
+  //     })
+  //   } catch (e) {
+  //     throw new Error('Error createUser', e)
+  //   }
+  // },
 
   updateUser: async (_, { userId, input }, ctx) => {
     if (!userId) throw new Error('No userId provided')
@@ -58,6 +65,7 @@ export const userObjectResolver: Resolvers = {
   User: {
     userId: (user) => user.id,
     email: (user) => user.email,
-    displayName: (user) => user.display_name
+    displayName: (user) => user.display_name,
+    googleId: (user) => user.google_id
   }
 }

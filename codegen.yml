@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'src/graphql/schemas/*.ts'
+schema: 'src/schema/**/*.ts'
 documents: null
 generates:
   src/_generated/graphql-schema.json:
@@ -23,6 +23,6 @@ generates:
         User: '@prisma/client/index.d#User'
 
 config:
-  contextType: ../graphql/context#Context
+  contextType: ../schema/context#Context
   scalars:
     DateTime: Date
