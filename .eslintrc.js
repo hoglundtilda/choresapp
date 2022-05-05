@@ -18,7 +18,7 @@ module.exports = {
 
   extends: ['standard', 'prettier'],
 
-  plugins: ['@typescript-eslint', 'prettier', 'jest'],
+  plugins: ['@typescript-eslint', 'prettier', 'jest', 'import'],
 
   rules: {
     'import/order': [

@@ -3,6 +3,12 @@
     {
       "name": "Chores App",
       "path": "."
+    },
+    {
+      "path": "..\\choresnative"
+    },
+    {
+      "path": "..\\..\\circl-factory-client"
     }
   ],
   "extensions": {

@@ -7,7 +7,7 @@ const userSchema = gql`
   }
 
    type Mutation {
-    # createUser(input: UserCreateInput!): User
+    createUser(input: UserCreateInput!): AuthPayload
     updateUser(userId: ID!, input: UserUpdateInput!): User
   }
 
@@ -15,13 +15,18 @@ const userSchema = gql`
     userId: ID!
     email: String!
     displayName: String!
-    googleId: String!
+    # googleId: String!
+  }
+
+  type AuthPayload {
+    token: String
+    user: User
   }
 
   input UserCreateInput {
     displayName: String!
     email: String!
-    # password: String!
+    password: String!
   }
 
   input UserUpdateInput {

@@ -6,18 +6,11 @@ import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 
 import { prisma } from '../../db/db.connection'
-import { RequiredSettings } from '../../settings/settings'
+import { RequiredSettings } from '../../settings/env'
 
 // import { Context } from '../../schema/context';
 
-
 // import session from "express-session";
-
-
-
-
-
-
 
 // const GoogleStrategy = require('passport-google-oauth20').Strategy;
 export const findOrCreate = async () => {

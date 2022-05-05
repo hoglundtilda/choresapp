@@ -1,3 +1,4 @@
+import { hashPw, } from '../../services'
 import {
   MutationResolvers,
   QueryResolvers,
@@ -26,20 +27,28 @@ export const userQueryResolver: QueryResolvers = {
 }
 
 export const userMutationResolver: MutationResolvers = {
-  // createUser: async (_, { input }, ctx) => {
-  //   if (!input) throw new Error('No input provided')
+  createUser: async (_, { input }, ctx) => {
+    if (!input) throw new Error('No input provided')
 
-  //   try {
-  //     return ctx.prisma.user.create({
-  //       data: {
-  //         email: input.email,
-  //         display_name: input.displayName
-  //       }
-  //     })
-  //   } catch (e) {
-  //     throw new Error('Error createUser', e)
-  //   }
-  // },
+    try {
+      const hashedPw = await hashPw(input.password)
+      const result = await ctx.prisma.user.create({
+        data: {
+          email: input.email,
+          display_name: input.displayName,
+          password: hashedPw
+        }
+      })
+      console.log(result)
+      // const token = await jwtSign(user.id)
+      return {
+        token: 'hej', user: 'hej'
+      }
+    } catch (e) {
+      console.error(e)
+      throw new Error('Error createUser', e)
+    }
+  },
 
   updateUser: async (_, { userId, input }, ctx) => {
     if (!userId) throw new Error('No userId provided')
@@ -66,6 +75,6 @@ export const userObjectResolver: Resolvers = {
     userId: (user) => user.id,
     email: (user) => user.email,
     displayName: (user) => user.display_name,
-    googleId: (user) => user.google_id
+    // googleId: (user) => user.google_id
   }
 }
