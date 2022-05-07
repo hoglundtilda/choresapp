@@ -20,3 +20,5 @@ export async function configureApp(
   // app.use(passport.session())
   app.use(apollo.getMiddleware({ path: '/' }))
 }
+
+

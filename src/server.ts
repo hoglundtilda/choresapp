@@ -4,7 +4,7 @@ import express from 'express'
 // import session from "express-session";
 // import passport from "passport";
 import { configureApp } from './app'
-import { ConnectPrismaClient } from './db/db.connection'
+// import { ConnectPrismaClient } from './db/db.connection'
 import { logger } from './lib'
 import { createApolloServer } from './schema/graphql.server'
 import { RequiredSettings } from './settings/env'
@@ -18,7 +18,7 @@ export const startServer = async () => {
   try {
     const PORT = RequiredSettings.port
 
-    await ConnectPrismaClient()
+    // await ConnectPrismaClient()
 
     const app = express()
     let httpServer

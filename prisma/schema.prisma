@@ -42,12 +42,12 @@ datasource db {
 // }
 
 model User {
-  id           String @id @default(uuid())
-  // created_at   DateTime   @default(now())
-  email        String @unique
+  id           String   @id @default(uuid())
+  created_at   DateTime @default(now())
+  email        String   @unique
   display_name String
   // chores       Chore[]
   // categories   Category[]
-  // password     String @db.VarChar(82)
-  google_id    String @unique
+  password     String   @db.VarChar(82)
+  // google_id    String @unique
 }

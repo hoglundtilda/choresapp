@@ -78,9 +78,10 @@ function makeEnum(x) { return x; }
 
 exports.Prisma.UserScalarFieldEnum = makeEnum({
   id: 'id',
+  created_at: 'created_at',
   email: 'email',
   display_name: 'display_name',
-  google_id: 'google_id'
+  password: 'password'
 });
 
 exports.Prisma.SortOrder = makeEnum({

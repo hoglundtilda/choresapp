@@ -18,9 +18,10 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
  */
 export type User = {
   id: string
+  created_at: Date
   email: string
   display_name: string
-  google_id: string
+  password: string
 }
 
 
@@ -761,46 +762,52 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
+    created_at: Date | null
     email: string | null
     display_name: string | null
-    google_id: string | null
+    password: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: string | null
+    created_at: Date | null
     email: string | null
     display_name: string | null
-    google_id: string | null
+    password: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
+    created_at: number
     email: number
     display_name: number
-    google_id: number
+    password: number
     _all: number
   }
 
 
   export type UserMinAggregateInputType = {
     id?: true
+    created_at?: true
     email?: true
     display_name?: true
-    google_id?: true
+    password?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
+    created_at?: true
     email?: true
     display_name?: true
-    google_id?: true
+    password?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
+    created_at?: true
     email?: true
     display_name?: true
-    google_id?: true
+    password?: true
     _all?: true
   }
 
@@ -884,9 +891,10 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
+    created_at: Date
     email: string
     display_name: string
-    google_id: string
+    password: string
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -908,9 +916,10 @@ export namespace Prisma {
 
   export type UserSelect = {
     id?: boolean
+    created_at?: boolean
     email?: boolean
     display_name?: boolean
-    google_id?: boolean
+    password?: boolean
   }
 
   export type UserGetPayload<
@@ -1564,9 +1573,10 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
+    created_at: 'created_at',
     email: 'email',
     display_name: 'display_name',
-    google_id: 'google_id'
+    password: 'password'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1598,29 +1608,31 @@ export namespace Prisma {
     OR?: Enumerable<UserWhereInput>
     NOT?: Enumerable<UserWhereInput>
     id?: StringFilter | string
+    created_at?: DateTimeFilter | Date | string
     email?: StringFilter | string
     display_name?: StringFilter | string
-    google_id?: StringFilter | string
+    password?: StringFilter | string
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
+    created_at?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
-    google_id?: SortOrder
+    password?: SortOrder
   }
 
   export type UserWhereUniqueInput = {
     id?: string
     email?: string
-    google_id?: string
   }
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
+    created_at?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
-    google_id?: SortOrder
+    password?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -1631,58 +1643,66 @@ export namespace Prisma {
     OR?: Enumerable<UserScalarWhereWithAggregatesInput>
     NOT?: Enumerable<UserScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
+    created_at?: DateTimeWithAggregatesFilter | Date | string
     email?: StringWithAggregatesFilter | string
     display_name?: StringWithAggregatesFilter | string
-    google_id?: StringWithAggregatesFilter | string
+    password?: StringWithAggregatesFilter | string
   }
 
   export type UserCreateInput = {
     id?: string
+    created_at?: Date | string
     email: string
     display_name: string
-    google_id: string
+    password: string
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
+    created_at?: Date | string
     email: string
     display_name: string
-    google_id: string
+    password: string
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
-    google_id?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
-    google_id?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserCreateManyInput = {
     id?: string
+    created_at?: Date | string
     email: string
     display_name: string
-    google_id: string
+    password: string
   }
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
-    google_id?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
     display_name?: StringFieldUpdateOperationsInput | string
-    google_id?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter = {
@@ -1700,25 +1720,39 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
+  export type DateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
+    created_at?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
-    google_id?: SortOrder
+    password?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
+    created_at?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
-    google_id?: SortOrder
+    password?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
+    created_at?: SortOrder
     email?: SortOrder
     display_name?: SortOrder
-    google_id?: SortOrder
+    password?: SortOrder
   }
 
   export type StringWithAggregatesFilter = {
@@ -1739,8 +1773,26 @@ export namespace Prisma {
     _max?: NestedStringFilter
   }
 
+  export type DateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type NestedStringFilter = {
@@ -1755,6 +1807,17 @@ export namespace Prisma {
     startsWith?: string
     endsWith?: string
     not?: NestedStringFilter | string
+  }
+
+  export type NestedDateTimeFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeFilter | Date | string
   }
 
   export type NestedStringWithAggregatesFilter = {
@@ -1783,6 +1846,20 @@ export namespace Prisma {
     gt?: number
     gte?: number
     not?: NestedIntFilter | number
+  }
+
+  export type NestedDateTimeWithAggregatesFilter = {
+    equals?: Date | string
+    in?: Enumerable<Date> | Enumerable<string>
+    notIn?: Enumerable<Date> | Enumerable<string>
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeWithAggregatesFilter | Date | string
+    _count?: NestedIntFilter
+    _min?: NestedDateTimeFilter
+    _max?: NestedDateTimeFilter
   }
 
 

@@ -6,9 +6,10 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -r dotenv/config --legacy-watch",
-    "generate": "graphql-codegen --config codegen.yml",
-    "generate:migration": "npx prisma migrate dev",
-    "generate:reset": "npx prisma migrate reset --force",
+    "graphql:generate": "graphql-codegen --config codegen.yml",
+    "prisma:generate": "prisma generate",
+    "prisma:generate:migration": "npx prisma migrate dev",
+    "prisma:generate:reset": "npx prisma migrate reset --force",
     "lint:fix": "eslint --fix ."
   },
   "dependencies": {

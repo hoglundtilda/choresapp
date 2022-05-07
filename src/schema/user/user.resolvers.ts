@@ -32,17 +32,17 @@ export const userMutationResolver: MutationResolvers = {
 
     try {
       const hashedPw = await hashPw(input.password)
-      const result = await ctx.prisma.user.create({
+      const { password, ...user } = await ctx.prisma.user.create({
         data: {
           email: input.email,
           display_name: input.displayName,
           password: hashedPw
         }
       })
-      console.log(result)
+      console.log(user)
       // const token = await jwtSign(user.id)
       return {
-        token: 'hej', user: 'hej'
+        token: 'hej', user
       }
     } catch (e) {
       console.error(e)
