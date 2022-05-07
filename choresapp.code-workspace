@@ -9,6 +9,9 @@
     },
     {
       "path": "..\\..\\circl-factory-client"
+    },
+    {
+      "path": "..\\..\\circl-product-registration"
     }
   ],
   "extensions": {

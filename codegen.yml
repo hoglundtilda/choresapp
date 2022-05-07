@@ -20,9 +20,11 @@ generates:
       onlyResolveTypeForInterfaces: true
       mapperTypeSuffix: Model
       mappers:
-        User: '@prisma/client/index.d#User'
+        User: './client/index.d#User'
 
 config:
   contextType: ../schema/context#Context
   scalars:
+    Date: Date
+    Time: Date
     DateTime: Date

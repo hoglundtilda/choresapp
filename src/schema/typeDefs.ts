@@ -1,8 +1,9 @@
-import userSchema from './user/user.schema'
+import { userSchema } from './user/user.schema'
+import { sharedSchema } from './shared/shared.schema'
 
 export const typeDefs = [
   // categorySchema,
-  // commonSchema,
+  sharedSchema,
   // choreSchema,
   // timeRecordSchema,
   userSchema

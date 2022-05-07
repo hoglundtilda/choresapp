@@ -3,7 +3,8 @@ import {
   userMutationResolver,
   userObjectResolver,
   userQueryResolver
-} from './user/user.resolvers'
+} from './user/user.resolver'
+import { sharedSchemaResolver } from './shared/shared.resolver'
 
 export const resolvers: Resolvers = {
   Query: {
@@ -13,7 +14,7 @@ export const resolvers: Resolvers = {
   Mutation: {
     ...userMutationResolver
   },
-
+  ...sharedSchemaResolver,
   ...userObjectResolver
 }
 

@@ -1,13 +1,12 @@
 /* tslint:disable */
-import { GraphQLResolveInfo } from 'graphql';
-import { User as UserModel } from '@prisma/client/index.d';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+import { User as UserModel } from './client/index.d';
 import { Context } from '../schema/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -16,17 +15,25 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: Date;
+  DateTime: Date;
+  Time: Date;
 };
 
 export type AuthPayload = {
   __typename?: 'AuthPayload';
-  token: Maybe<Scalars['String']>;
-  user: Maybe<User>;
+  token: Scalars['String'];
+  userId: Scalars['ID'];
+};
+
+export type CreateUserPayload = {
+  __typename?: 'CreateUserPayload';
+  email: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createUser: Maybe<AuthPayload>;
+  createUser: Maybe<CreateUserPayload>;
   updateUser: Maybe<User>;
 };
 
@@ -43,17 +50,23 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  login: Maybe<User>;
-  user: Maybe<User>;
+  getUser: Maybe<User>;
+  loginUser: AuthPayload;
 };
 
 
-export type QueryUserArgs = {
+export type QueryGetUserArgs = {
   userId: Scalars['ID'];
+};
+
+
+export type QueryLoginUserArgs = {
+  input: UserLoginInput;
 };
 
 export type User = {
   __typename?: 'User';
+  createdAt: Scalars['DateTime'];
   displayName: Scalars['String'];
   email: Scalars['String'];
   userId: Scalars['ID'];
@@ -61,6 +74,11 @@ export type User = {
 
 export type UserCreateInput = {
   displayName: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type UserLoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
 };
@@ -139,47 +157,75 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  AuthPayload: ResolverTypeWrapper<Omit<AuthPayload, 'user'> & { user: Maybe<ResolversTypes['User']> }>;
+  AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateUserPayload: ResolverTypeWrapper<CreateUserPayload>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Time: ResolverTypeWrapper<Scalars['Time']>;
   User: ResolverTypeWrapper<UserModel>;
   UserCreateInput: UserCreateInput;
+  UserLoginInput: UserLoginInput;
   UserUpdateInput: UserUpdateInput;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  AuthPayload: Omit<AuthPayload, 'user'> & { user: Maybe<ResolversParentTypes['User']> };
+  AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
+  CreateUserPayload: CreateUserPayload;
+  Date: Scalars['Date'];
+  DateTime: Scalars['DateTime'];
   ID: Scalars['ID'];
   Mutation: {};
   Query: {};
   String: Scalars['String'];
+  Time: Scalars['Time'];
   User: UserModel;
   UserCreateInput: UserCreateInput;
+  UserLoginInput: UserLoginInput;
   UserUpdateInput: UserUpdateInput;
 }>;
 
 export type AuthPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['AuthPayload'] = ResolversParentTypes['AuthPayload']> = ResolversObject<{
-  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type CreateUserPayloadResolvers<ContextType = Context, ParentType extends ResolversParentTypes['CreateUserPayload'] = ResolversParentTypes['CreateUserPayload']> = ResolversObject<{
+  email?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
 export type MutationResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  createUser?: Resolver<Maybe<ResolversTypes['AuthPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
+  createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
 }>;
 
 export type QueryResolvers<ContextType = Context, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryUserArgs, 'userId'>>;
+  getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'userId'>>;
+  loginUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<QueryLoginUserArgs, 'input'>>;
 }>;
 
+export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
+  name: 'Time';
+}
+
 export type UserResolvers<ContextType = Context, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
@@ -188,8 +234,12 @@ export type UserResolvers<ContextType = Context, ParentType extends ResolversPar
 
 export type Resolvers<ContextType = Context> = ResolversObject<{
   AuthPayload?: AuthPayloadResolvers<ContextType>;
+  CreateUserPayload?: CreateUserPayloadResolvers<ContextType>;
+  Date?: GraphQLScalarType;
+  DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Time?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
 }>;
 
