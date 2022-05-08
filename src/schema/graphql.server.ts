@@ -21,10 +21,9 @@ export const createApolloServer = () =>
 
       context: async ({ req }) => {
         console.log(req.body.operationName)
-        if (req.body.operationName === 'LoginUser') return { prisma } as GraphqlContext
 
 
-        if (req.headers.authorization) {
+        if (req.headers.authorization && req.body.operationName !== 'LoginUser' && req.body.operationName !== 'CreateUser') {
           const token = req.headers.authorization.split(" ")[1] || ''
           const verified = jwtVerify(token)
           const user = verified ? await getUser(verified as string, prisma) : null
