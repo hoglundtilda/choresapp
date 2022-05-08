@@ -1,4 +1,4 @@
-import { comparePassword, createPassword } from '../../services'
+import { comparePassword, createPassword, jwtSign } from '../../services'
 import {
   MutationResolvers,
   QueryResolvers,
@@ -34,7 +34,8 @@ export const userQueryResolver: QueryResolvers = {
         const correctPassword = await comparePassword(input.password, user.password)
         if (!correctPassword) throw new Error('Wrong password provided')
 
-        return { token: 'hej', userId: user.id }
+        const token = jwtSign(user.id)
+        return { token, userId: user.id }
 
       } else {
         throw new Error('Wrong email provided')

@@ -23,7 +23,7 @@ generates:
         User: './client/index.d#User'
 
 config:
-  contextType: ../schema/context#Context
+  contextType: ../schema/context#GraphqlContext
   scalars:
     Date: Date
     Time: Date

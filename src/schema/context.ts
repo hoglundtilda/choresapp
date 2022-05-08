@@ -1,5 +1,7 @@
+import { User } from "src/_generated/graphql";
 import { PrismaClient } from "../_generated/client";
 
-export interface Context {
-  prisma: PrismaClient
+export type GraphqlContext = {
+  prisma: PrismaClient,
+  user: User | null
 }
