@@ -23,14 +23,14 @@ export const createApolloServer = () =>
         console.log(req.body.operationName)
 
 
-        if (req.headers.authorization && req.body.operationName !== 'LoginUser' && req.body.operationName !== 'CreateUser') {
-          const token = req.headers.authorization.split(" ")[1] || ''
-          const verified = jwtVerify(token)
-          const user = verified ? await getUser(verified as string, prisma) : null
-          return { user, prisma } as GraphqlContext
-        }
+        // if (req.headers.authorization && req.body.operationName !== 'LoginUser' && req.body.operationName !== 'CreateUser') {
+        const token = req.headers.authorization?.split(" ")[1] || ''
+        const userId = jwtVerify(token)
+        const user = userId ? await getUser(userId as string, prisma) : null
+        return { user, prisma } as GraphqlContext
+        // }
 
-        return { prisma } as GraphqlContext
+        // return { prisma } as GraphqlContext
 
       },
     })

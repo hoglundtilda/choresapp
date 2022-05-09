@@ -1,3 +1,4 @@
+import { AuthenticationError, UserInputError } from 'apollo-server-express'
 import { comparePassword, createPassword, jwtSign } from '../../services'
 import {
   MutationResolvers,
@@ -5,11 +6,11 @@ import {
   Resolvers
 } from '../../_generated/graphql'
 
-// import { findOrCreate } from '../../services/authService/Passport.Strategy'
 
 export const userQueryResolver: QueryResolvers = {
   getUser: async (_, { userId }, ctx) => {
-    if (!userId) throw new Error('Internal server error')
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
+
     try {
       return ctx.prisma.user.findUnique({
         where: {
@@ -22,7 +23,6 @@ export const userQueryResolver: QueryResolvers = {
   },
 
   loginUser: async (_, { input }, ctx) => {
-    if (!input) throw new Error('No input provided')
 
     try {
       const user = await ctx.prisma.user.findUnique({
@@ -50,6 +50,15 @@ export const userQueryResolver: QueryResolvers = {
 
 export const userMutationResolver: MutationResolvers = {
   createUser: async (_, { input }, ctx) => {
+    if (!input.displayName || input.displayName.length < 2) throw new UserInputError('Not a valid display name', {
+      argumentName: 'displayName'
+    })
+    if (!input.email) throw new UserInputError('Must provide a valid email', {
+      argumentName: 'email'
+    })
+    if (!input.password) throw new UserInputError('Must provide a valid password', {
+      argumentName: 'password'
+    })
     if (!input) throw new Error('No input provided')
 
     try {
@@ -69,8 +78,14 @@ export const userMutationResolver: MutationResolvers = {
   },
 
   updateUser: async (_, { userId, input }, ctx) => {
-    if (!userId) throw new Error('Internal server error')
-    if (!input.displayName) throw new Error('Name can not be empty')
+    if (!ctx.user) throw new AuthenticationError('User not authenticated')
+    if (!userId) throw new AuthenticationError('User not authenticated', {
+      argumentName: 'userId'
+    })
+    if (!input.displayName || input.displayName.length < 2) throw new UserInputError('Not a valid display name', {
+      argumentName: 'displayName'
+    })
+
 
     try {
       return ctx.prisma.user.update({
