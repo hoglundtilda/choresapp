@@ -1,5 +1,5 @@
 // import * as http from 'http'
-import { PrismaClient } from '../_generated/client'
+import { PrismaClient } from '@prisma/client'
 // import { getUser } from '../services/auth.service'
 import { ApolloServer } from 'apollo-server-express'
 import { GraphqlContext } from './context'
