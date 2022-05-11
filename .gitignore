@@ -2,5 +2,7 @@
 
 .env
 
+/build
+
 yarn-error.log*
 

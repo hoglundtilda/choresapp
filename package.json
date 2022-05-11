@@ -10,7 +10,8 @@
     "prisma:generate": "prisma generate",
     "prisma:generate:migration": "npx prisma migrate dev",
     "prisma:generate:reset": "npx prisma migrate reset --force",
-    "lint:fix": "eslint --fix ."
+    "lint:fix": "eslint --fix .",
+    "build": "tsc --project tsconfig.production.json "
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",

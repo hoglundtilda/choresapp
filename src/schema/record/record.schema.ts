@@ -36,3 +36,4 @@
 //     noMinutes: Int!
 //   }
 // `
+export { }

@@ -3,7 +3,7 @@
     "lib": ["ESNext", "dom"],
     "outDir": "build",
     "removeComments": true,
-    "target": "ES6",
+    "target": "ES2018",
     // "target": "esnext",
     "module": "commonjs",
     "baseUrl": ".",
@@ -12,14 +12,14 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
 
-    "paths": {
-      "@graphql/*": ["src/schema/*"],
-      "types/*": ["src/types/*"],
-      "@db/*": ["src/db/*"],
-      "@settings/*": ["src/settings/*"],
-      "@services/*": ["src/services/*"],
-      "@utils/*": ["src/utils/*"]
-    },
+    // "paths": {
+    //   "@graphql/*": ["src/schema/*"],
+    //   "types/*": ["src/types/*"],
+    //   "@db/*": ["src/db/*"],
+    //   "@settings/*": ["src/settings/*"],
+    //   "@services/*": ["src/services/*"],
+    //   "@utils/*": ["src/utils/*"]
+    // },
 
     "sourceMap": true,
     // "sourceRoot": "/",
@@ -35,6 +35,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true
   },
-  "include": ["src", "./**/*.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules/**/*", "services/authService/Passport.Strategy.ts"]
 }
