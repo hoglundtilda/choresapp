@@ -6,11 +6,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon -r dotenv/config --legacy-watch",
-    "graphql:generate": "graphql-codegen --config codegen.yml",
-    "prisma:generate": "prisma generate",
-    "prisma:generate:migration": "npx prisma migrate dev",
-    "prisma:generate:reset": "npx prisma migrate reset --force",
-    "lint:fix": "eslint --fix ."
+    "generate:graphql": "graphql-codegen --config codegen.yml",
+    "generate:prisma-schema": "prisma generate",
+    "generate:prisma-migration": "npx prisma migrate dev",
+    "generate:prisma-reset": "npx prisma migrate reset --force",
+    "lint:fix": "eslint --fix .",
+    "build": "tsc --project tsconfig.production.json ",
+    "start": "node build/server.js"
   },
   "dependencies": {
     "@prisma/client": "^3.12.0",
@@ -47,6 +49,7 @@
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-session": "^2.0.44",
     "@types/express-session": "^1.17.4",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/passport": "^1.0.7",
     "@types/passport-google-oauth20": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -62,10 +65,7 @@
     "prisma": "^3.12.0",
     "ts-node": "^10.7.0"
   },
-  "importSort": {
-    ".js, .jsx, .es6, .es, .ts, .tsx": {
-      "parser": "babylon",
-      "style": "module"
-    }
+  "engines": {
+    "node": "16.13.1"
   }
 }

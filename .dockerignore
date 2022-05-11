@@ -1,0 +1,13 @@
+README.md
+**/Notes.md
+
+
+**/.dockerignore
+# **/.env
+**/.git
+**/.gitignore
+**/build
+**/Dockerfile*
+**/node_modules
+**/.vscode
+# **/prisma

@@ -7,18 +7,17 @@ const ensureEnv = (key: string): string => {
 export const RequiredSettings: Record<string, string> = {
   environment: ensureEnv('NODE_ENV'),
   port: ensureEnv('PORT'),
-  databaseHost: ensureEnv('SQL_CONNECTION_NAME'),
   databaseUser: ensureEnv('DB_USER'),
   databasePassword: ensureEnv('DB_PW'),
   databaseName: ensureEnv('DB_NAME'),
   databasePort: ensureEnv('DB_PORT'),
+  databaseUrl: ensureEnv('DATABASE_URL'),
   googleClientId: ensureEnv('GOOGLE_CLIENT_ID'),
   googleClientSecret: ensureEnv('GOOGLE_CLIENT_SECRET'),
   sessionSecret: ensureEnv('SESSION_SECRET'),
-  jwtSecret: ensureEnv('JWT_SECRET')
+  privateKeyFile: ensureEnv('PRIVATE_KEY_FILE'),
+  privateKeyPassphrase: ensureEnv('PRIVATE_KEY_PASSPHRASE'),
+  publicKeyFile: ensureEnv('PUBLIC_KEY_FILE')
 }
-
-// eslint-disable-next-line
-// const getEnv = (key: string): string | undefined => process.env[key]
 
 export const OptionalSettings: Record<string, string | undefined> = {}

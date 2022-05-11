@@ -1,6 +1,6 @@
 // import { prisma } from "../db/db.connection"
 
-import { PrismaClient } from "src/_generated/client"
+import { PrismaClient } from "@prisma/client"
 // import { User } from "src/_generated/graphql"
 
 
