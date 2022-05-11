@@ -3,7 +3,7 @@
     "lib": ["ESNext", "dom"],
     "outDir": "build",
     "removeComments": true,
-    "target": "ES2018",
+    "target": "ES6",
     // "target": "esnext",
     "module": "commonjs",
     "baseUrl": ".",
@@ -33,7 +33,8 @@
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "typeRoots": ["node_modules/@types"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules/**/*", "services/authService/Passport.Strategy.ts"]

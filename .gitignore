@@ -1,8 +1,8 @@
 /node_modules
+/build
 
 .env
 
-/build
-
 yarn-error.log*
+.DS_Store
 
