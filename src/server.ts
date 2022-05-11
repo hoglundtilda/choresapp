@@ -35,7 +35,7 @@ export const startServer = async () => {
       // app.use(passport.initialize());
       // app.use(passport.session());
 
-      const apolloServer = createApolloServer()
+      const apolloServer = createApolloServer(httpServer)
 
       await configureApp(app, apolloServer)
       httpServer.listen(PORT)
@@ -48,7 +48,7 @@ export const startServer = async () => {
     //   failureRedirect: 'http://localhost:3000/graphql',
     // }));
 
-    logger.info(`Srver started: http://localhost:${PORT}`)
+    logger.info(`Server started: http://localhost:${PORT}`)
 
     return httpServer
   } catch (e) {

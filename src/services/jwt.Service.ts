@@ -1,28 +1,31 @@
-var jwt = require('jsonwebtoken');
-import { RequiredSettings } from '../settings/env'
+import fs from 'fs'
+const jwt = require('jsonwebtoken');
+import { keys } from '../settings/keys'
 
-
+const privateKey = fs.readFileSync(keys.privateKeyFile)
+const privateSecret = {
+  key: privateKey,
+  passphrase: keys.privateKeyPassphrase
+}
+const publicKey = fs.readFileSync(keys.publicKeyFile)
 
 export const jwtSign = (userId: string): string => {
-  if (RequiredSettings.jwtSecret) {
-    const token = jwt.sign(userId, RequiredSettings.jwtSecret, { algorithm: 'RS256' })
-    return token
-  } else {
-    throw new Error('Error: jwtSecret not accessible')
-  }
+
+
+  const token = jwt.sign(userId, privateSecret, { algorithm: 'RS256' })
+  return token
+
 }
 
 export const jwtVerify = (token: string) => {
-  if (RequiredSettings.jwtSecret) {
 
-    try {
-      const tokenPayload = jwt.verify(token, RequiredSettings.jwtSecret,) as string;
-      return tokenPayload
-    } catch (e) {
-      return null
-    }
 
-  } else {
-    throw new Error('Error: jwtSecret not accessible')
+  try {
+    const tokenPayload = jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as string;
+    return tokenPayload
+  } catch (e) {
+    return null
   }
+
+
 }

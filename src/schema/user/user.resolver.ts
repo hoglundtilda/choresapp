@@ -31,10 +31,12 @@ export const userQueryResolver: QueryResolvers = {
         }
       })
       if (user) {
+
         const correctPassword = await comparePassword(input.password, user.password)
         if (!correctPassword) throw new Error('Wrong password provided')
 
         const token = jwtSign(user.id)
+
         return { token, userId: user.id }
 
       } else {

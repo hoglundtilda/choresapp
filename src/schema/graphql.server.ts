@@ -1,27 +1,32 @@
-// import * as http from 'http'
-import { PrismaClient } from '@prisma/client'
-// import { getUser } from '../services/auth.service'
+import * as http from 'http'
 import { ApolloServer } from 'apollo-server-express'
-import { GraphqlContext } from './context'
+import { ApolloServerPluginDrainHttpServer, ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
+import { PrismaClient } from '@prisma/client'
 
+// import { RequiredSettings } from '../settings/env'
+import { GraphqlContext } from './context'
 import { resolvers } from './resolvers'
 import { typeDefs } from './typeDefs'
 import { jwtVerify } from '../services/jwt.service'
 import { getUser } from '../services/auth.service'
+import { RequiredSettings } from '../settings/env'
 
 const prisma = new PrismaClient()
-export const createApolloServer = () =>
-// httpServer: http.Server
-{
+export const createApolloServer = (httpServer: http.Server
+) => {
   try {
     return new ApolloServer({
       typeDefs: typeDefs,
       resolvers: resolvers,
       introspection: true,
+      // introspection: RequiredSettings.environment !== 'production' ,
+
+      plugins: [
+        RequiredSettings.environment === 'production' ? ApolloServerPluginLandingPageGraphQLPlayground() : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+        ApolloServerPluginDrainHttpServer({ httpServer }),
+      ],
 
       context: async ({ req }) => {
-        console.log(req.body.operationName)
-
 
         // if (req.headers.authorization && req.body.operationName !== 'LoginUser' && req.body.operationName !== 'CreateUser') {
         const token = req.headers.authorization?.split(" ")[1] || ''

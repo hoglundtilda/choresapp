@@ -2,6 +2,7 @@
 /build
 
 .env
+/config/jwt/*
 
 yarn-error.log*
 .DS_Store
