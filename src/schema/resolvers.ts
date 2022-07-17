@@ -5,16 +5,25 @@ import {
   userQueryResolver
 } from './user/user.resolver'
 import { sharedSchemaResolver } from './shared/shared.resolver'
+import { categoryMutationResolver, categoryObjectResolver, categoryQueryResolver } from './category/category.resolver'
+import { choreObjectResolver, choreQueryResolver } from './chore/chore.resolver'
 
 export const resolvers: Resolvers = {
   Query: {
-    ...userQueryResolver
+    ...userQueryResolver,
+    ...categoryQueryResolver,
+    ...choreQueryResolver
   },
 
   Mutation: {
-    ...userMutationResolver
+    ...userMutationResolver,
+    ...categoryMutationResolver,
+
   },
+  ...userObjectResolver,
+  ...categoryObjectResolver,
+  ...choreObjectResolver,
   ...sharedSchemaResolver,
-  ...userObjectResolver
+
 }
 

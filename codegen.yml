@@ -1,6 +1,5 @@
 overwrite: true
 schema: 'src/schema/**/*.ts'
-documents: null
 generates:
   src/_generated/graphql-schema.json:
     plugins:
@@ -20,7 +19,9 @@ generates:
       onlyResolveTypeForInterfaces: true
       mapperTypeSuffix: Model
       mappers:
-        User: './client/index.d#User'
+        User: '../../node_modules/.prisma/client#User'
+        Category: '../../node_modules/.prisma/client#Category'
+        Chore: '../../node_modules/.prisma/client#Chore'
 
 config:
   contextType: ../schema/context#GraphqlContext

@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+  // Do not use this
   // output   = "../src/_generated/client"
 }
 
@@ -20,34 +18,36 @@ datasource db {
 //   chore_id   String?
 // }
 
-// model Category {
-//   id         String  @id @default(uuid())
-//   title      String
-//   chores     Chore[]
-//   created_by User    @relation(fields: [user_id], references: [id])
-//   user_id    String
-// }
+model Category {
+  id     String  @id @default(uuid())
+  title  String
+  chores Chore[]
 
-// model Chore {
-//   id           String        @id @default(uuid())
-//   label        String
-//   category     Category      @relation(fields: [category_id], references: [id])
-//   category_id  String
-//   start_date   DateTime      @default(now())
-//   end_date     DateTime?
-//   time_records Time_Record[]
-//   created_by   User          @relation(fields: [user_id], references: [id])
-//   user_id      String
-//   archive      Boolean
-// }
+  userId String @map("user_id")
+  owner  User   @relation(fields: [userId], references: [id])
+}
+
+model Chore {
+  id        String    @id @default(uuid())
+  label     String
+  startDate DateTime  @default(now()) @map("start_date")
+  endDate   DateTime? @map("end_date")
+  // archive      Boolean
+  // time_records Time_Record[]
+
+  categoryId String   @map("category_id")
+  userId     String   @map("user_id")
+  owner      User     @relation(fields: [userId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+}
 
 model User {
-  id           String   @id @default(uuid())
-  created_at   DateTime @default(now())
-  email        String   @unique
-  display_name String
-  // chores       Chore[]
-  // categories   Category[]
-  password     String   @db.VarChar(82)
-  // google_id    String @unique
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now()) @map("created_at")
+  email       String   @unique
+  displayName String   @map("display_name")
+  password    String   @db.VarChar(82)
+
+  Category Category[]
+  Chore    Chore[]
 }
