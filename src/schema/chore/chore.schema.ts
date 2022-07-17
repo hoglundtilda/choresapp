@@ -3,24 +3,29 @@ import { gql } from 'apollo-server-core'
 export const choreSchema = gql`
   extend type Query {
     choreCollection(userId: ID!): ChoreCollection
+    chore(choreId: ID!): Chore
   }
 
   extend type Mutation {
     createChore(userId: ID!, input: ChoreCreateInput!): Chore
     updateChore(choreId: ID!, input: ChoreUpdateInput!): Chore
-    deleteChores(input: [ID!]!): [ID]
+    deleteChores(input: ChoresDeleteInput!): [ID]
   }
 
   type Chore {
     id: ID!
     label: String!
-    categoryId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime
     startDate: DateTime!
     endDate: DateTime
-    owner: User
+    owner: User!
+    category: Category
+    timeRecords: [TimeRecord]
   }
 
   type ChoreCollection {
+    categoryId: ID
     chores: [Chore]
   }
 
@@ -34,6 +39,9 @@ export const choreSchema = gql`
     label: String
     startDate: DateTime!
     endDate: DateTime
-    # archive: Boolean
+  }
+
+  input ChoresDeleteInput {
+    choreIds: [ID!]!
   }
 `

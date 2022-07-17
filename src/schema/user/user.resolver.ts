@@ -6,7 +6,6 @@ import {
   Resolvers
 } from '../../_generated/graphql'
 
-
 export const userQueryResolver: QueryResolvers = {
   getUser: async (_, { userId }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
@@ -109,6 +108,10 @@ export const userObjectResolver: Resolvers = {
     createdAt: (user) => user.createdAt,
     email: (user) => user.email,
     displayName: (user) => user.displayName,
-    // googleId: (user) => user.google_id
+  },
+
+  AuthPayload: {
+    token: (parent) => parent.token,
+    userId: (parent) => parent.userId
   }
 }

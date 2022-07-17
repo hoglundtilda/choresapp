@@ -16,7 +16,6 @@ export const userSchema = gql`
     createdAt: DateTime!
     email: String!
     displayName: String!
-    # googleId: String!
   }
 
   type CreateUserPayload {

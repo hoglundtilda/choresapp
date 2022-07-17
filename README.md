@@ -11,7 +11,7 @@ yarn
 ### Start server
 
 ```
-yarn run dev
+yarn dev
 ```
 
 ## DB

@@ -49,6 +49,7 @@ export const categoryQueryResolver: QueryResolvers = {
 
 export const categoryMutationResolver: MutationResolvers = {
   createCategory: async (_, { userId, input }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!input.title) throw new UserInputError('Title need to be provided')
     try {
       return ctx.prisma.category.create({
@@ -57,12 +58,14 @@ export const categoryMutationResolver: MutationResolvers = {
           owner: { connect: { id: userId } }
         }
       })
+
     } catch (e) {
       throw new Error(e)
     }
   },
 
   updateCategory: async (_, { categoryId, input }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!input.title) throw new UserInputError('Title need to be provided')
     try {
       return ctx.prisma.category.update({
@@ -74,11 +77,12 @@ export const categoryMutationResolver: MutationResolvers = {
     }
   },
 
-  addChoresToCategory: async (_, { categoryId, input }, ctx) => {
+  addChoresToCategory: async (_, { input }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
       if (!input?.choreIds?.length) { return null }
       return ctx.prisma.category.update({
-        where: { id: categoryId },
+        where: { id: input.categoryId },
         data: {
           chores: { connect: input.choreIds?.map(id => ({ id: id })) || [] }
         }
@@ -88,11 +92,12 @@ export const categoryMutationResolver: MutationResolvers = {
     }
   },
 
-  removeChoresFromCategory: async (_, { categoryId, input }, ctx) => {
+  removeChoresFromCategory: async (_, { input }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
       if (!input?.choreIds?.length) { return null }
       return ctx.prisma.category.update({
-        where: { id: categoryId },
+        where: { id: input.categoryId },
         data: {
           chores: { disconnect: input.choreIds?.map(id => ({ id: id })) || [] }
         }
@@ -102,10 +107,11 @@ export const categoryMutationResolver: MutationResolvers = {
     }
   },
 
-  deleteCategory: async (_, { categoryId }, ctx) => {
+  deleteCategories: async (_, { input }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
-      await ctx.prisma.category.delete({ where: { id: categoryId } })
-      return categoryId
+      await ctx.prisma.category.deleteMany({ where: { id: { in: input.categoryIds } } })
+      return input.categoryIds
     } catch (e) {
       throw new Error(e)
     }
@@ -119,10 +125,16 @@ export const categoryObjectResolver: Resolvers = {
   Category: {
     id: (parent) => parent.id,
     title: (parent) => parent.title,
-    // owner: (parent) => parent.userId
+    owner: (parent, _, ctx,) => {
+      return ctx.prisma.user.findUniqueOrThrow({ where: { id: parent.userId } })
+    },
+    chores: (parent, _, ctx,) => {
+      return ctx.prisma.chore.findMany({ where: { categoryId: parent.id } })
+    }
+
   },
 
   CategoryCollection: {
     categories: (parent) => parent.categories
-  }
+  },
 }

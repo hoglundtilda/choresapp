@@ -22,7 +22,7 @@
     // },
 
     "sourceMap": true,
-    // "sourceRoot": "/",
+    "sourceRoot": "/",
 
     "alwaysStrict": true,
     "allowUnreachableCode": false,

@@ -12,4 +12,4 @@
 When adding new models and resolvers, export them in typeDefs, generate prisma schema, dont use generate folder.
 Add to mappers in codegen
 
-Why should I map prisma models? When mapping relational fields are not included and are then not available in the objectResolver, is that correct?
+Generated folder can probably be used, just import correct prisma client in graphql server file

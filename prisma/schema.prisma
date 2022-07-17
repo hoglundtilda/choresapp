@@ -9,45 +9,52 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// model Time_Record {
-//   id         String    @id @default(uuid())
-//   start_time DateTime  @default(now())
-//   end_time   DateTime? @default(now())
-//   no_minutes Int?
-//   chore      Chore?    @relation(fields: [chore_id], references: [id])
-//   chore_id   String?
-// }
-
 model Category {
-  id     String  @id @default(uuid())
-  title  String
-  chores Chore[]
+  id        String   @id @unique @default(uuid())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  userId String @map("user_id")
-  owner  User   @relation(fields: [userId], references: [id])
+  userId String
+  owner  User    @relation(fields: [userId], references: [id])
+  Chore  Chore[]
 }
 
 model Chore {
-  id        String    @id @default(uuid())
+  id        String    @id @unique @default(uuid())
   label     String
-  startDate DateTime  @default(now()) @map("start_date")
-  endDate   DateTime? @map("end_date")
-  // archive      Boolean
-  // time_records Time_Record[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt()
+  startDate DateTime  @default(now())
+  endDate   DateTime?
 
-  categoryId String   @map("category_id")
-  userId     String   @map("user_id")
-  owner      User     @relation(fields: [userId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  userId     String
+  owner      User         @relation(fields: [userId], references: [id])
+  category   Category?    @relation(fields: [categoryId], references: [id])
+  TimeRecord TimeRecord[]
+}
+
+model TimeRecord {
+  id        String   @id @unique @default(uuid())
+  amount    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  userId  String
+  choreId String
+  owner   User   @relation(fields: [userId], references: [id])
+  Chore   Chore  @relation(fields: [choreId], references: [id])
 }
 
 model User {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now()) @map("created_at")
+  id          String   @id @unique @default(uuid())
+  createdAt   DateTime @default(now())
   email       String   @unique
-  displayName String   @map("display_name")
+  displayName String
   password    String   @db.VarChar(82)
 
-  Category Category[]
-  Chore    Chore[]
+  Category   Category[]
+  Chore      Chore[]
+  TimeRecord TimeRecord[]
 }
