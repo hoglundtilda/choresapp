@@ -12,7 +12,7 @@ export const userQueryResolver: QueryResolvers = {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
 
     try {
-      return ctx.prisma.user.findUnique({
+      return ctx.prisma.user.findUniqueOrThrow({
         where: {
           id: userId
         }
@@ -25,7 +25,7 @@ export const userQueryResolver: QueryResolvers = {
   loginUser: async (_, { input }, ctx) => {
 
     try {
-      const user = await ctx.prisma.user.findUnique({
+      const user = await ctx.prisma.user.findUniqueOrThrow({
         where: {
           email: input.email
         }
@@ -68,7 +68,7 @@ export const userMutationResolver: MutationResolvers = {
       return ctx.prisma.user.create({
         data: {
           email: input.email,
-          display_name: input.displayName,
+          displayName: input.displayName,
           password: hashedPassword
         }
       })
@@ -81,7 +81,7 @@ export const userMutationResolver: MutationResolvers = {
 
   updateUser: async (_, { userId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('User not authenticated')
-    if (!userId) throw new AuthenticationError('User not authenticated', {
+    if (!userId) throw new UserInputError('User not authenticated', {
       argumentName: 'userId'
     })
     if (!input.displayName || input.displayName.length < 2) throw new UserInputError('Not a valid display name', {
@@ -91,9 +91,9 @@ export const userMutationResolver: MutationResolvers = {
 
     try {
       return ctx.prisma.user.update({
-        where: { id: String(userId) },
+        where: { id: userId },
         data: {
-          display_name: input.displayName
+          displayName: input.displayName
         }
       })
 
@@ -106,9 +106,9 @@ export const userMutationResolver: MutationResolvers = {
 export const userObjectResolver: Resolvers = {
   User: {
     userId: (user) => user.id,
-    createdAt: (user) => user.created_at,
+    createdAt: (user) => user.createdAt,
     email: (user) => user.email,
-    displayName: (user) => user.display_name,
+    displayName: (user) => user.displayName,
     // googleId: (user) => user.google_id
   }
 }

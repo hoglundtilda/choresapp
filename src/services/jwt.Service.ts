@@ -2,12 +2,12 @@ import fs from 'fs'
 const jwt = require('jsonwebtoken');
 import { keys } from '../settings/keys'
 
+const publicKey = fs.readFileSync(keys.publicKeyFile)
 const privateKey = fs.readFileSync(keys.privateKeyFile)
 const privateSecret = {
   key: privateKey,
   passphrase: keys.privateKeyPassphrase
 }
-const publicKey = fs.readFileSync(keys.publicKeyFile)
 
 export const jwtSign = (userId: string): string => {
 
@@ -18,7 +18,6 @@ export const jwtSign = (userId: string): string => {
 }
 
 export const jwtVerify = (token: string) => {
-
 
   try {
     const tokenPayload = jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as string;

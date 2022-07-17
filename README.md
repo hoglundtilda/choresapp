@@ -1,5 +1,7 @@
 # Chores App
 
+##
+
 ### Install
 
 ```
@@ -23,6 +25,8 @@ npx prisma migrate dev --name init
 ### Heroku Deploy
 
 ```
+heroku login
+
 heroku container:login
 
 heroku container:push web --app choresbackend
@@ -37,7 +41,7 @@ heroku container:release web
 docker build . -t choresbackend/cra-docker
 ```
 
-## JWT
+### JWT
 
 Must choose a passphrase.
 

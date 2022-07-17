@@ -13,7 +13,7 @@ export const getUser = async (userId: string, prisma: PrismaClient) => {
       }
     })
     if (!user) return null
-    return { userId: user.id, displayName: user.display_name, email: user.email, createdAt: user.created_at }
+    return { userId: user.id, displayName: user.displayName, email: user.email, createdAt: user.createdAt }
   } catch (e) {
     throw new Error(e)
   }

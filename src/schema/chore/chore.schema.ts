@@ -8,7 +8,7 @@ export const choreSchema = gql`
   extend type Mutation {
     createChore(userId: ID!, input: ChoreCreateInput!): Chore
     updateChore(choreId: ID!, input: ChoreUpdateInput!): Chore
-    removeChore(choreId: ID!): ID
+    deleteChores(input: [ID!]!): [ID]
   }
 
   type Chore {
@@ -17,25 +17,20 @@ export const choreSchema = gql`
     categoryId: ID!
     startDate: DateTime!
     endDate: DateTime
-    owner: ID!
-    # timeRecords: [String!]
-    # archive: Boolean!
+    owner: User
   }
 
   type ChoreCollection {
-    owner: ID!
     chores: [Chore]
   }
 
   input ChoreCreateInput {
     categoryId: ID!
-    userId: ID!
     label: String!
     startDate: DateTime!
   }
 
   input ChoreUpdateInput {
-    choreId: ID!
     label: String
     startDate: DateTime!
     endDate: DateTime

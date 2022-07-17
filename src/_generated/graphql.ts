@@ -1,12 +1,13 @@
 /* tslint:disable */
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { User as UserModel } from './client/index.d';
+import { User as UserModel, Category as CategoryModel, Chore as ChoreModel } from '../../node_modules/.prisma/client';
 import { GraphqlContext } from '../schema/context';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -30,7 +31,7 @@ export type Category = {
   __typename?: 'Category';
   chores: Maybe<Array<Maybe<Chore>>>;
   id: Maybe<Scalars['ID']>;
-  owner: Maybe<Scalars['ID']>;
+  owner: Maybe<User>;
   title: Maybe<Scalars['String']>;
 };
 
@@ -45,11 +46,13 @@ export type CategoryCollection = {
 
 export type CategoryCreateInput = {
   title: Scalars['String'];
-  userId: Scalars['ID'];
+};
+
+export type CategoryRemoveChoreInput = {
+  choreIds?: InputMaybe<Array<Scalars['String']>>;
 };
 
 export type CategoryUpdateInput = {
-  id: Scalars['ID'];
   title: Scalars['String'];
 };
 
@@ -59,25 +62,22 @@ export type Chore = {
   endDate: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   label: Scalars['String'];
-  owner: Scalars['ID'];
+  owner: Maybe<User>;
   startDate: Scalars['DateTime'];
 };
 
 export type ChoreCollection = {
   __typename?: 'ChoreCollection';
   chores: Maybe<Array<Maybe<Chore>>>;
-  owner: Scalars['ID'];
 };
 
 export type ChoreCreateInput = {
   categoryId: Scalars['ID'];
   label: Scalars['String'];
   startDate: Scalars['DateTime'];
-  userId: Scalars['ID'];
 };
 
 export type ChoreUpdateInput = {
-  choreId: Scalars['ID'];
   endDate?: InputMaybe<Scalars['DateTime']>;
   label?: InputMaybe<Scalars['String']>;
   startDate: Scalars['DateTime'];
@@ -90,19 +90,20 @@ export type CreateUserPayload = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addChoreToCategory: Maybe<Category>;
+  addChoresToCategory: Maybe<Category>;
   createCategory: Maybe<Category>;
   createChore: Maybe<Chore>;
   createUser: Maybe<CreateUserPayload>;
-  removeCategory: Maybe<Scalars['ID']>;
-  removeChore: Maybe<Scalars['ID']>;
+  deleteCategory: Maybe<Scalars['ID']>;
+  deleteChores: Maybe<Array<Maybe<Scalars['ID']>>>;
+  removeChoresFromCategory: Maybe<Category>;
   updateCategory: Maybe<Category>;
   updateChore: Maybe<Chore>;
   updateUser: Maybe<User>;
 };
 
 
-export type MutationAddChoreToCategoryArgs = {
+export type MutationAddChoresToCategoryArgs = {
   categoryId: Scalars['ID'];
   input: CategoryAddChoreInput;
 };
@@ -125,13 +126,19 @@ export type MutationCreateUserArgs = {
 };
 
 
-export type MutationRemoveCategoryArgs = {
+export type MutationDeleteCategoryArgs = {
   categoryId: Scalars['ID'];
 };
 
 
-export type MutationRemoveChoreArgs = {
-  choreId: Scalars['ID'];
+export type MutationDeleteChoresArgs = {
+  input: Array<Scalars['ID']>;
+};
+
+
+export type MutationRemoveChoresFromCategoryArgs = {
+  categoryId: Scalars['ID'];
+  input: CategoryRemoveChoreInput;
 };
 
 
@@ -154,10 +161,16 @@ export type MutationUpdateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  category: Maybe<Category>;
   categoryCollection: Maybe<CategoryCollection>;
   choreCollection: Maybe<ChoreCollection>;
   getUser: Maybe<User>;
   loginUser: AuthPayload;
+};
+
+
+export type QueryCategoryArgs = {
+  categoryId: Scalars['ID'];
 };
 
 
@@ -275,13 +288,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Category: ResolverTypeWrapper<Category>;
+  Category: ResolverTypeWrapper<CategoryModel>;
   CategoryAddChoreInput: CategoryAddChoreInput;
-  CategoryCollection: ResolverTypeWrapper<CategoryCollection>;
+  CategoryCollection: ResolverTypeWrapper<Omit<CategoryCollection, 'categories'> & { categories: Maybe<Array<Maybe<ResolversTypes['Category']>>> }>;
   CategoryCreateInput: CategoryCreateInput;
+  CategoryRemoveChoreInput: CategoryRemoveChoreInput;
   CategoryUpdateInput: CategoryUpdateInput;
-  Chore: ResolverTypeWrapper<Chore>;
-  ChoreCollection: ResolverTypeWrapper<ChoreCollection>;
+  Chore: ResolverTypeWrapper<ChoreModel>;
+  ChoreCollection: ResolverTypeWrapper<Omit<ChoreCollection, 'chores'> & { chores: Maybe<Array<Maybe<ResolversTypes['Chore']>>> }>;
   ChoreCreateInput: ChoreCreateInput;
   ChoreUpdateInput: ChoreUpdateInput;
   CreateUserPayload: ResolverTypeWrapper<CreateUserPayload>;
@@ -302,13 +316,14 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AuthPayload: AuthPayload;
   Boolean: Scalars['Boolean'];
-  Category: Category;
+  Category: CategoryModel;
   CategoryAddChoreInput: CategoryAddChoreInput;
-  CategoryCollection: CategoryCollection;
+  CategoryCollection: Omit<CategoryCollection, 'categories'> & { categories: Maybe<Array<Maybe<ResolversParentTypes['Category']>>> };
   CategoryCreateInput: CategoryCreateInput;
+  CategoryRemoveChoreInput: CategoryRemoveChoreInput;
   CategoryUpdateInput: CategoryUpdateInput;
-  Chore: Chore;
-  ChoreCollection: ChoreCollection;
+  Chore: ChoreModel;
+  ChoreCollection: Omit<ChoreCollection, 'chores'> & { chores: Maybe<Array<Maybe<ResolversParentTypes['Chore']>>> };
   ChoreCreateInput: ChoreCreateInput;
   ChoreUpdateInput: ChoreUpdateInput;
   CreateUserPayload: CreateUserPayload;
@@ -334,7 +349,7 @@ export type AuthPayloadResolvers<ContextType = GraphqlContext, ParentType extend
 export type CategoryResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = ResolversObject<{
   chores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Chore']>>>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
-  owner?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
@@ -349,14 +364,13 @@ export type ChoreResolvers<ContextType = GraphqlContext, ParentType extends Reso
   endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  owner?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  owner?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ChoreCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['ChoreCollection'] = ResolversParentTypes['ChoreCollection']> = ResolversObject<{
   chores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Chore']>>>, ParentType, ContextType>;
-  owner?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -374,18 +388,20 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type MutationResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  addChoreToCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddChoreToCategoryArgs, 'categoryId' | 'input'>>;
+  addChoresToCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddChoresToCategoryArgs, 'categoryId' | 'input'>>;
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'input' | 'userId'>>;
   createChore?: Resolver<Maybe<ResolversTypes['Chore']>, ParentType, ContextType, RequireFields<MutationCreateChoreArgs, 'input' | 'userId'>>;
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
-  removeCategory?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, RequireFields<MutationRemoveCategoryArgs, 'categoryId'>>;
-  removeChore?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, RequireFields<MutationRemoveChoreArgs, 'choreId'>>;
+  deleteCategory?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType, RequireFields<MutationDeleteCategoryArgs, 'categoryId'>>;
+  deleteChores?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteChoresArgs, 'input'>>;
+  removeChoresFromCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationRemoveChoresFromCategoryArgs, 'categoryId' | 'input'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'categoryId' | 'input'>>;
   updateChore?: Resolver<Maybe<ResolversTypes['Chore']>, ParentType, ContextType, RequireFields<MutationUpdateChoreArgs, 'choreId' | 'input'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
 }>;
 
 export type QueryResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<QueryCategoryArgs, 'categoryId'>>;
   categoryCollection?: Resolver<Maybe<ResolversTypes['CategoryCollection']>, ParentType, ContextType, RequireFields<QueryCategoryCollectionArgs, 'userId'>>;
   choreCollection?: Resolver<Maybe<ResolversTypes['ChoreCollection']>, ParentType, ContextType, RequireFields<QueryChoreCollectionArgs, 'userId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'userId'>>;

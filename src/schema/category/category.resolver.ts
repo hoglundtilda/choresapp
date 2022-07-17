@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server-express'
+import { AuthenticationError, UserInputError } from 'apollo-server-express'
 import {
   MutationResolvers,
   QueryResolvers,
@@ -8,105 +8,121 @@ import {
 export const categoryQueryResolver: QueryResolvers = {
   categoryCollection: async (_, { userId }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
+    if (!userId) throw new UserInputError('No userId provided', {
+      argumentName: 'userId'
+    })
     try {
-      return await ctx.prisma.category.findMany({
+      const categories = await ctx.prisma.category.findMany({
         where: {
-         user_id: userId
+          userId: userId
         },
         include: {
-          chores: true
+          chores: true,
         },
+      })
+      return { categories }
+    } catch (e) {
+
+      throw new Error(e)
+    }
+  },
+
+  category: async (_, { categoryId }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
+
+    try {
+      const category = await ctx.prisma.category.findUniqueOrThrow({
+        where: {
+          id: categoryId
+        },
+        include: { owner: true, chores: true }
+      })
+      return category
+    } catch (e) {
+
+      throw new Error(e)
+    }
+  },
+
+
+}
+
+export const categoryMutationResolver: MutationResolvers = {
+  createCategory: async (_, { userId, input }, ctx) => {
+    if (!input.title) throw new UserInputError('Title need to be provided')
+    try {
+      return ctx.prisma.category.create({
+        data: {
+          title: input.title,
+          owner: { connect: { id: userId } }
+        }
       })
     } catch (e) {
       throw new Error(e)
     }
   },
 
-  // loginUser: async (_, { input }, ctx) => {
-  //   try {
-  //     const user = await ctx.prisma.user.findUnique({
-  //       where: {
-  //         email: input.email
-  //       }
-  //     })
-  //     if (user) {
-  //       const correctPassword = await comparePassword(
-  //         input.password,
-  //         user.password
-  //       )
-  //       if (!correctPassword) throw new Error('Wrong password provided')
+  updateCategory: async (_, { categoryId, input }, ctx) => {
+    if (!input.title) throw new UserInputError('Title need to be provided')
+    try {
+      return ctx.prisma.category.update({
+        where: { id: categoryId },
+        data: { title: input.title }
+      })
+    } catch (e) {
+      throw new Error(e)
+    }
+  },
 
-  //       const token = jwtSign(user.id)
+  addChoresToCategory: async (_, { categoryId, input }, ctx) => {
+    try {
+      if (!input?.choreIds?.length) { return null }
+      return ctx.prisma.category.update({
+        where: { id: categoryId },
+        data: {
+          chores: { connect: input.choreIds?.map(id => ({ id: id })) || [] }
+        }
+      })
+    } catch (e) {
+      throw new Error(e)
+    }
+  },
 
-  //       return { token, userId: user.id }
-  //     } else {
-  //       throw new Error('Wrong email provided')
-  //     }
-  //   } catch (e) {
-  //     throw new Error(e)
-  //   }
-  // }
+  removeChoresFromCategory: async (_, { categoryId, input }, ctx) => {
+    try {
+      if (!input?.choreIds?.length) { return null }
+      return ctx.prisma.category.update({
+        where: { id: categoryId },
+        data: {
+          chores: { disconnect: input.choreIds?.map(id => ({ id: id })) || [] }
+        }
+      })
+    } catch (e) {
+      throw new Error(e)
+    }
+  },
+
+  deleteCategory: async (_, { categoryId }, ctx) => {
+    try {
+      await ctx.prisma.category.delete({ where: { id: categoryId } })
+      return categoryId
+    } catch (e) {
+      throw new Error(e)
+    }
+  }
 }
 
-export const userMutationResolver: MutationResolvers = {
-  // createUser: async (_, { input }, ctx) => {
-  //   if (!input.displayName || input.displayName.length < 2)
-  //     throw new UserInputError('Not a valid display name', {
-  //       argumentName: 'displayName'
-  //     })
-  //   if (!input.email)
-  //     throw new UserInputError('Must provide a valid email', {
-  //       argumentName: 'email'
-  //     })
-  //   if (!input.password)
-  //     throw new UserInputError('Must provide a valid password', {
-  //       argumentName: 'password'
-  //     })
-  //   if (!input) throw new Error('No input provided')
 
-  //   try {
-  //     const hashedPassword = await createPassword(input.password)
-  //     return ctx.prisma.user.create({
-  //       data: {
-  //         email: input.email,
-  //         display_name: input.displayName,
-  //         password: hashedPassword
-  //       }
-  //     })
-  //   } catch (e) {
-  //     throw new Error(e)
-  //   }
-  // },
 
-  // updateUser: async (_, { userId, input }, ctx) => {
-  //   if (!ctx.user) throw new AuthenticationError('User not authenticated')
-  //   if (!userId)
-  //     throw new AuthenticationError('User not authenticated', {
-  //       argumentName: 'userId'
-  //     })
-  //   if (!input.displayName || input.displayName.length < 2)
-  //     throw new UserInputError('Not a valid display name', {
-  //       argumentName: 'displayName'
-  //     })
-
-  //   try {
-  //     return ctx.prisma.user.update({
-  //       where: { id: String(userId) },
-  //       data: {
-  //         display_name: input.displayName
-  //       }
-  //     })
-  //   } catch (e) {
-  //     throw new Error(e)
-  //   }
-  // }
-}
 
 export const categoryObjectResolver: Resolvers = {
   Category: {
-    id: (category) => category.id,
-    owner: (category) => category.owner,
-    title: (category) => category.title,
-    chores: (category) => category.chores
-  // }
+    id: (parent) => parent.id,
+    title: (parent) => parent.title,
+    // owner: (parent) => parent.userId
+  },
+
+  CategoryCollection: {
+    categories: (parent) => parent.categories
+  }
 }

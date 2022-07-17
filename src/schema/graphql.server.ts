@@ -33,9 +33,6 @@ export const createApolloServer = (httpServer: http.Server
         const userId = jwtVerify(token)
         const user = userId ? await getUser(userId as string, prisma) : null
         return { user, prisma } as GraphqlContext
-        // }
-
-        // return { prisma } as GraphqlContext
 
       },
     })
