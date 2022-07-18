@@ -65,11 +65,14 @@ export type CategoryUpdateInput = {
 export type Chore = {
   __typename?: 'Chore';
   category: Maybe<Category>;
+  createdAt: Scalars['DateTime'];
   endDate: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
   label: Scalars['String'];
   owner: User;
   startDate: Scalars['DateTime'];
+  timeRecords: Maybe<Array<Maybe<TimeRecord>>>;
+  updatedAt: Maybe<Scalars['DateTime']>;
 };
 
 export type ChoreCollection = {
@@ -103,12 +106,15 @@ export type Mutation = {
   addChoresToCategory: Maybe<Category>;
   createCategory: Maybe<Category>;
   createChore: Maybe<Chore>;
+  createTimeRecord: Maybe<TimeRecord>;
   createUser: Maybe<CreateUserPayload>;
   deleteCategories: Maybe<Array<Maybe<Scalars['ID']>>>;
   deleteChores: Maybe<Array<Maybe<Scalars['ID']>>>;
   removeChoresFromCategory: Maybe<Category>;
+  removeTimeRecord: Maybe<TimeRecord>;
   updateCategory: Maybe<Category>;
   updateChore: Maybe<Chore>;
+  updateTimeRecord: Maybe<TimeRecord>;
   updateUser: Maybe<User>;
 };
 
@@ -127,6 +133,12 @@ export type MutationCreateCategoryArgs = {
 export type MutationCreateChoreArgs = {
   input: ChoreCreateInput;
   userId: Scalars['ID'];
+};
+
+
+export type MutationCreateTimeRecordArgs = {
+  choreId: Scalars['ID'];
+  input: TimeRecordCreateInput;
 };
 
 
@@ -150,6 +162,11 @@ export type MutationRemoveChoresFromCategoryArgs = {
 };
 
 
+export type MutationRemoveTimeRecordArgs = {
+  timeRecordId: Scalars['ID'];
+};
+
+
 export type MutationUpdateCategoryArgs = {
   categoryId: Scalars['ID'];
   input: CategoryUpdateInput;
@@ -159,6 +176,12 @@ export type MutationUpdateCategoryArgs = {
 export type MutationUpdateChoreArgs = {
   choreId: Scalars['ID'];
   input: ChoreUpdateInput;
+};
+
+
+export type MutationUpdateTimeRecordArgs = {
+  input: TimeRecordUpdateInput;
+  timeRecordId: Scalars['ID'];
 };
 
 
@@ -175,6 +198,8 @@ export type Query = {
   choreCollection: Maybe<ChoreCollection>;
   getUser: Maybe<User>;
   loginUser: AuthPayload;
+  timeRecord: Maybe<TimeRecord>;
+  timeRecordCollection: Maybe<TimeRecordCollection>;
 };
 
 
@@ -205,6 +230,42 @@ export type QueryGetUserArgs = {
 
 export type QueryLoginUserArgs = {
   input: UserLoginInput;
+};
+
+
+export type QueryTimeRecordArgs = {
+  timeRecordId: Scalars['ID'];
+};
+
+
+export type QueryTimeRecordCollectionArgs = {
+  choreId: Scalars['ID'];
+};
+
+export type TimeRecord = {
+  __typename?: 'TimeRecord';
+  amount: Scalars['Float'];
+  chore: Chore;
+  createdAt: Scalars['DateTime'];
+  date: Scalars['DateTime'];
+  id: Scalars['ID'];
+  owner: User;
+  updatedAt: Maybe<Scalars['DateTime']>;
+};
+
+export type TimeRecordCollection = {
+  __typename?: 'TimeRecordCollection';
+  timeRecords: Maybe<Array<Maybe<TimeRecord>>>;
+};
+
+export type TimeRecordCreateInput = {
+  amount: Scalars['Float'];
+  date: Scalars['DateTime'];
+};
+
+export type TimeRecordUpdateInput = {
+  amount?: InputMaybe<Scalars['Float']>;
+  data?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type User = {
@@ -317,11 +378,16 @@ export type ResolversTypes = ResolversObject<{
   CreateUserPayload: ResolverTypeWrapper<CreateUserPayload>;
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Time: ResolverTypeWrapper<Scalars['Time']>;
+  TimeRecord: ResolverTypeWrapper<Omit<TimeRecord, 'chore' | 'owner'> & { chore: ResolversTypes['Chore'], owner: ResolversTypes['User'] }>;
+  TimeRecordCollection: ResolverTypeWrapper<Omit<TimeRecordCollection, 'timeRecords'> & { timeRecords: Maybe<Array<Maybe<ResolversTypes['TimeRecord']>>> }>;
+  TimeRecordCreateInput: TimeRecordCreateInput;
+  TimeRecordUpdateInput: TimeRecordUpdateInput;
   User: ResolverTypeWrapper<UserModel>;
   UserCreateInput: UserCreateInput;
   UserLoginInput: UserLoginInput;
@@ -347,11 +413,16 @@ export type ResolversParentTypes = ResolversObject<{
   CreateUserPayload: CreateUserPayload;
   Date: Scalars['Date'];
   DateTime: Scalars['DateTime'];
+  Float: Scalars['Float'];
   ID: Scalars['ID'];
   Mutation: {};
   Query: {};
   String: Scalars['String'];
   Time: Scalars['Time'];
+  TimeRecord: Omit<TimeRecord, 'chore' | 'owner'> & { chore: ResolversParentTypes['Chore'], owner: ResolversParentTypes['User'] };
+  TimeRecordCollection: Omit<TimeRecordCollection, 'timeRecords'> & { timeRecords: Maybe<Array<Maybe<ResolversParentTypes['TimeRecord']>>> };
+  TimeRecordCreateInput: TimeRecordCreateInput;
+  TimeRecordUpdateInput: TimeRecordUpdateInput;
   User: UserModel;
   UserCreateInput: UserCreateInput;
   UserLoginInput: UserLoginInput;
@@ -379,11 +450,14 @@ export type CategoryCollectionResolvers<ContextType = GraphqlContext, ParentType
 
 export type ChoreResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Chore'] = ResolversParentTypes['Chore']> = ResolversObject<{
   category?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  timeRecords?: Resolver<Maybe<Array<Maybe<ResolversTypes['TimeRecord']>>>, ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -409,12 +483,15 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   addChoresToCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddChoresToCategoryArgs, 'input'>>;
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'input' | 'userId'>>;
   createChore?: Resolver<Maybe<ResolversTypes['Chore']>, ParentType, ContextType, RequireFields<MutationCreateChoreArgs, 'input' | 'userId'>>;
+  createTimeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<MutationCreateTimeRecordArgs, 'choreId' | 'input'>>;
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteCategoriesArgs, 'input'>>;
   deleteChores?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteChoresArgs, 'input'>>;
   removeChoresFromCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationRemoveChoresFromCategoryArgs, 'input'>>;
+  removeTimeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<MutationRemoveTimeRecordArgs, 'timeRecordId'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'categoryId' | 'input'>>;
   updateChore?: Resolver<Maybe<ResolversTypes['Chore']>, ParentType, ContextType, RequireFields<MutationUpdateChoreArgs, 'choreId' | 'input'>>;
+  updateTimeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<MutationUpdateTimeRecordArgs, 'input' | 'timeRecordId'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
 }>;
 
@@ -425,11 +502,29 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   choreCollection?: Resolver<Maybe<ResolversTypes['ChoreCollection']>, ParentType, ContextType, RequireFields<QueryChoreCollectionArgs, 'userId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'userId'>>;
   loginUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<QueryLoginUserArgs, 'input'>>;
+  timeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<QueryTimeRecordArgs, 'timeRecordId'>>;
+  timeRecordCollection?: Resolver<Maybe<ResolversTypes['TimeRecordCollection']>, ParentType, ContextType, RequireFields<QueryTimeRecordCollectionArgs, 'choreId'>>;
 }>;
 
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
   name: 'Time';
 }
+
+export type TimeRecordResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['TimeRecord'] = ResolversParentTypes['TimeRecord']> = ResolversObject<{
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  chore?: Resolver<ResolversTypes['Chore'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  updatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type TimeRecordCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['TimeRecordCollection'] = ResolversParentTypes['TimeRecordCollection']> = ResolversObject<{
+  timeRecords?: Resolver<Maybe<Array<Maybe<ResolversTypes['TimeRecord']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type UserResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
@@ -451,6 +546,8 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Time?: GraphQLScalarType;
+  TimeRecord?: TimeRecordResolvers<ContextType>;
+  TimeRecordCollection?: TimeRecordCollectionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
 

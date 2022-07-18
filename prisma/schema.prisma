@@ -17,7 +17,7 @@ model Category {
 
   userId String
   owner  User    @relation(fields: [userId], references: [id])
-  Chore  Chore[]
+  chores Chore[]
 }
 
 model Chore {
@@ -28,23 +28,24 @@ model Chore {
   startDate DateTime  @default(now())
   endDate   DateTime?
 
-  categoryId String?
-  userId     String
-  owner      User         @relation(fields: [userId], references: [id])
-  category   Category?    @relation(fields: [categoryId], references: [id])
-  TimeRecord TimeRecord[]
+  categoryId  String?
+  userId      String
+  owner       User         @relation(fields: [userId], references: [id])
+  category    Category?    @relation(fields: [categoryId], references: [id])
+  timeRecords TimeRecord[]
 }
 
 model TimeRecord {
   id        String   @id @unique @default(uuid())
   amount    Float
+  date      DateTime
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
   userId  String
   choreId String
   owner   User   @relation(fields: [userId], references: [id])
-  Chore   Chore  @relation(fields: [choreId], references: [id])
+  chore   Chore  @relation(fields: [choreId], references: [id])
 }
 
 model User {
@@ -54,7 +55,7 @@ model User {
   displayName String
   password    String   @db.VarChar(82)
 
-  Category   Category[]
-  Chore      Chore[]
-  TimeRecord TimeRecord[]
+  categories  Category[]
+  chores      Chore[]
+  timeRecords TimeRecord[]
 }

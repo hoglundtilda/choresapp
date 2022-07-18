@@ -19,6 +19,7 @@ export const timeRecordSchema = gql`
   type TimeRecord {
     id: ID!
     amount: Float!
+    date: DateTime!
     createdAt: DateTime!
     updatedAt: DateTime
     owner: User!
@@ -29,12 +30,13 @@ export const timeRecordSchema = gql`
     timeRecords: [TimeRecord]
   }
 
-  # Inputs
   input TimeRecordCreateInput {
     amount: Float!
+    date: DateTime!
   }
 
   input TimeRecordUpdateInput {
-    amount: Float!
+    amount: Float
+    data: DateTime
   }
 `

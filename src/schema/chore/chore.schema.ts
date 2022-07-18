@@ -25,7 +25,6 @@ export const choreSchema = gql`
   }
 
   type ChoreCollection {
-    categoryId: ID
     chores: [Chore]
   }
 
