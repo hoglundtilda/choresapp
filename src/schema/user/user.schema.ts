@@ -12,7 +12,7 @@ export const userSchema = gql`
   }
 
   type User {
-    userId: ID!
+    id: ID!
     createdAt: DateTime!
     email: String!
     displayName: String!

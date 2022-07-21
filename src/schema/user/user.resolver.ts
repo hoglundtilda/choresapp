@@ -104,7 +104,7 @@ export const userMutationResolver: MutationResolvers = {
 
 export const userObjectResolver: Resolvers = {
   User: {
-    userId: (user) => user.id,
+    id: (user) => user.id,
     createdAt: (user) => user.createdAt,
     email: (user) => user.email,
     displayName: (user) => user.displayName,
@@ -113,5 +113,8 @@ export const userObjectResolver: Resolvers = {
   AuthPayload: {
     token: (parent) => parent.token,
     userId: (parent) => parent.userId
+  },
+  CreateUserPayload: {
+    email: (parent) => parent.email,
   }
 }

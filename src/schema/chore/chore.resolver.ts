@@ -110,7 +110,6 @@ export const choreObjectResolver: Resolvers = {
     category: (parent, _, ctx,) => {
       if (!parent.categoryId) return null;
       return ctx.prisma.category.findUnique({ where: { id: parent?.categoryId } })
-
     }
   },
 

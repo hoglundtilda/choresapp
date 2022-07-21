@@ -273,7 +273,7 @@ export type User = {
   createdAt: Scalars['DateTime'];
   displayName: Scalars['String'];
   email: Scalars['String'];
-  userId: Scalars['ID'];
+  id: Scalars['ID'];
 };
 
 export type UserCreateInput = {
@@ -530,7 +530,7 @@ export type UserResolvers<ContextType = GraphqlContext, ParentType extends Resol
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

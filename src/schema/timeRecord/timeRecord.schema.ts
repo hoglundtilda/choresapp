@@ -12,7 +12,6 @@ export const timeRecordSchema = gql`
       timeRecordId: ID!
       input: TimeRecordUpdateInput!
     ): TimeRecord
-
     removeTimeRecord(timeRecordId: ID!): TimeRecord
   }
 
