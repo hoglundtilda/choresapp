@@ -22,6 +22,7 @@ export const choreSchema = gql`
     owner: User!
     category: Category
     timeRecords: [TimeRecord]
+    totalTimeTraced: Float!
   }
 
   type ChoreCollection {

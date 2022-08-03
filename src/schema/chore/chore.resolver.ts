@@ -7,9 +7,10 @@ import {
 
 export const choreQueryResolver: QueryResolvers = {
   choreCollection: async (_, { userId }, ctx) => {
-    if (!userId) throw new UserInputError('No userId provided', {
-      argumentName: 'userId'
-    })
+    if (!userId)
+      throw new UserInputError('No userId provided', {
+        argumentName: 'userId'
+      })
     try {
       const chores = await ctx.prisma.chore.findMany({
         where: { userId: userId },
@@ -39,14 +40,15 @@ export const choreQueryResolver: QueryResolvers = {
 export const choreMutationResolver: MutationResolvers = {
   deleteChores: async (_, { input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
-    if (!input.choreIds.length) throw new UserInputError('No chore ids provided', {
-      argumentName: 'id'
-    })
+    if (!input.choreIds.length)
+      throw new UserInputError('No chore ids provided', {
+        argumentName: 'id'
+      })
 
     try {
       // TODO track which ids got deleted instead
       await ctx.prisma.chore.deleteMany({
-        where: { id: { in: input.choreIds } },
+        where: { id: { in: input.choreIds } }
       })
       return input.choreIds
     } catch (e) {
@@ -58,8 +60,8 @@ export const choreMutationResolver: MutationResolvers = {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
       return ctx.prisma.chore.update({
-        where: { id: choreId }, data:
-        {
+        where: { id: choreId },
+        data: {
           label: input?.label || undefined,
           startDate: input?.startDate || undefined,
           endDate: input?.endDate || undefined
@@ -72,7 +74,10 @@ export const choreMutationResolver: MutationResolvers = {
 
   createChore: async (_, { userId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
-    if (!input.label) throw new UserInputError('Label needs to be provided', { argumentName: "label" })
+    if (!input.label)
+      throw new UserInputError('Label needs to be provided', {
+        argumentName: 'label'
+      })
     try {
       const chore = await ctx.prisma.chore.create({
         data: {
@@ -89,13 +94,10 @@ export const choreMutationResolver: MutationResolvers = {
       }
 
       return chore
-
-
     } catch (e) {
       throw new Error(e)
     }
-  },
-
+  }
 }
 
 export const choreObjectResolver: Resolvers = {
@@ -104,12 +106,28 @@ export const choreObjectResolver: Resolvers = {
     label: (parent) => parent.label,
     startDate: (parent) => parent.startDate,
     endDate: (parent) => parent.endDate,
-    owner: (parent, _, ctx,) => {
+    owner: (parent, _, ctx) => {
       return ctx.prisma.user.findUniqueOrThrow({ where: { id: parent.userId } })
     },
-    category: (parent, _, ctx,) => {
-      if (!parent.categoryId) return null;
-      return ctx.prisma.category.findUnique({ where: { id: parent?.categoryId } })
+    category: (parent, _, ctx) => {
+      if (!parent.categoryId) return null
+      return ctx.prisma.category.findUnique({
+        where: { id: parent?.categoryId }
+      })
+    },
+    timeRecords: (parent, _, ctx) =>
+      ctx.prisma.timeRecord.findMany({
+        where: { choreId: parent.id },
+        include: { chore: true, owner: true }
+      }),
+    totalTimeTraced: async (parent, _, ctx) => {
+      const records = await ctx.prisma.timeRecord.findMany({
+        where: { choreId: parent.id },
+        include: { chore: true, owner: true }
+      })
+      return records.reduce((acc, obj) => {
+        return acc + obj.amount
+      }, 0)
     }
   },
 

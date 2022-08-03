@@ -7,12 +7,12 @@ export const timeRecordSchema = gql`
   }
 
   extend type Mutation {
-    createTimeRecord(choreId: ID!, input: TimeRecordCreateInput!): TimeRecord
+    createTimeRecord(userId: ID!, input: TimeRecordCreateInput!): TimeRecord
     updateTimeRecord(
       timeRecordId: ID!
       input: TimeRecordUpdateInput!
     ): TimeRecord
-    removeTimeRecord(timeRecordId: ID!): TimeRecord
+    deleteTimeRecords(input: TimeRecordDeleteInput!): [ID]
   }
 
   type TimeRecord {
@@ -30,12 +30,18 @@ export const timeRecordSchema = gql`
   }
 
   input TimeRecordCreateInput {
+    choreId: ID!
     amount: Float!
     date: DateTime!
   }
 
   input TimeRecordUpdateInput {
+    choreId: ID!
     amount: Float
-    data: DateTime
+    date: DateTime
+  }
+
+  input TimeRecordDeleteInput {
+    timeRecordIds: [ID!]!
   }
 `
