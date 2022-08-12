@@ -22,7 +22,7 @@ export const categorySchema = gql`
   }
 
   type CategoryCollection {
-    categories: [Category]
+    categories: [Category!]
   }
 
   input CategoryCreateInput {

@@ -46,7 +46,7 @@ export type CategoryAddChoreInput = {
 
 export type CategoryCollection = {
   __typename?: 'CategoryCollection';
-  categories: Maybe<Array<Maybe<Category>>>;
+  categories: Maybe<Array<Category>>;
 };
 
 export type CategoryCreateInput = {
@@ -373,7 +373,7 @@ export type ResolversTypes = ResolversObject<{
   CategoriesDeleteInput: CategoriesDeleteInput;
   Category: ResolverTypeWrapper<CategoryModel>;
   CategoryAddChoreInput: CategoryAddChoreInput;
-  CategoryCollection: ResolverTypeWrapper<Omit<CategoryCollection, 'categories'> & { categories: Maybe<Array<Maybe<ResolversTypes['Category']>>> }>;
+  CategoryCollection: ResolverTypeWrapper<Omit<CategoryCollection, 'categories'> & { categories: Maybe<Array<ResolversTypes['Category']>> }>;
   CategoryCreateInput: CategoryCreateInput;
   CategoryRemoveChoreInput: CategoryRemoveChoreInput;
   CategoryUpdateInput: CategoryUpdateInput;
@@ -409,7 +409,7 @@ export type ResolversParentTypes = ResolversObject<{
   CategoriesDeleteInput: CategoriesDeleteInput;
   Category: CategoryModel;
   CategoryAddChoreInput: CategoryAddChoreInput;
-  CategoryCollection: Omit<CategoryCollection, 'categories'> & { categories: Maybe<Array<Maybe<ResolversParentTypes['Category']>>> };
+  CategoryCollection: Omit<CategoryCollection, 'categories'> & { categories: Maybe<Array<ResolversParentTypes['Category']>> };
   CategoryCreateInput: CategoryCreateInput;
   CategoryRemoveChoreInput: CategoryRemoveChoreInput;
   CategoryUpdateInput: CategoryUpdateInput;
@@ -453,7 +453,7 @@ export type CategoryResolvers<ContextType = GraphqlContext, ParentType extends R
 }>;
 
 export type CategoryCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['CategoryCollection'] = ResolversParentTypes['CategoryCollection']> = ResolversObject<{
-  categories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Category']>>>, ParentType, ContextType>;
+  categories?: Resolver<Maybe<Array<ResolversTypes['Category']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
