@@ -33,7 +33,7 @@ export type CategoriesDeleteInput = {
 
 export type Category = {
   __typename?: 'Category';
-  chores: Maybe<Array<Maybe<Chore>>>;
+  chores: Maybe<Array<Chore>>;
   id: Scalars['ID'];
   owner: User;
   title: Scalars['String'];
@@ -445,7 +445,7 @@ export type AuthPayloadResolvers<ContextType = GraphqlContext, ParentType extend
 }>;
 
 export type CategoryResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = ResolversObject<{
-  chores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Chore']>>>, ParentType, ContextType>;
+  chores?: Resolver<Maybe<Array<ResolversTypes['Chore']>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

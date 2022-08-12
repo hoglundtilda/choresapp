@@ -18,7 +18,7 @@ export const categorySchema = gql`
     id: ID!
     title: String!
     owner: User!
-    chores: [Chore]
+    chores: [Chore!]
   }
 
   type CategoryCollection {
