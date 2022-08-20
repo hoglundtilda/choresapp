@@ -1,7 +1,7 @@
 {
-  "name": "chores-app",
+  "name": "activities-app",
   "version": "1.0.0",
-  "description": "App to track your chores",
+  "description": "App to track your activities",
   "author": "Tilda",
   "license": "MIT",
   "scripts": {

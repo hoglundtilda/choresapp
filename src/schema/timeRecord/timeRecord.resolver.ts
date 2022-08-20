@@ -16,7 +16,7 @@ export const timeRecordQueryResolver: QueryResolvers = {
         },
         include: {
           owner: true,
-          chore: true
+          activity: true
         }
       })
     } catch (e) {
@@ -32,9 +32,9 @@ export const timeRecordMutationResolver: MutationResolvers = {
       throw new UserInputError('No userId provided', {
         argumentName: 'userId'
       })
-    if (!input.choreId)
-      throw new UserInputError('No chore id provided', {
-        argumentName: 'choreId'
+    if (!input.activityId)
+      throw new UserInputError('No activity id provided', {
+        argumentName: 'activityIds'
       })
     if (!input.amount)
       throw new UserInputError('No input provided', { argumentName: 'input' })
@@ -46,11 +46,11 @@ export const timeRecordMutationResolver: MutationResolvers = {
         data: {
           amount: input.amount,
           date: input.date,
-          chore: { connect: { id: input.choreId } },
+          activity: { connect: { id: input.activityId } },
           owner: { connect: { id: userId } }
         },
         include: {
-          chore: true,
+          activity: true,
           owner: true
         }
       })
@@ -72,10 +72,10 @@ export const timeRecordMutationResolver: MutationResolvers = {
         data: {
           amount: input?.amount || undefined,
           date: input?.date || undefined,
-          chore: { connect: { id: input?.choreId || undefined } }
+          activity: { connect: { id: input?.activityId || undefined } }
         },
         include: {
-          chore: true,
+          activity: true,
           owner: true
         }
       })
@@ -107,7 +107,7 @@ export const timeRecordObjectResolver: Resolvers = {
     createdAt: (parent) => parent.createdAt,
     updatedAt: (parent) => parent.updatedAt,
     owner: (parent) => parent.owner,
-    chore: (parent) => parent.chore
+    activity: (parent) => parent.activity
   },
   TimeRecordCollection: {
     timeRecords: (parent) => parent.timeRecords

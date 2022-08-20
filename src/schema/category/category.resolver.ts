@@ -18,7 +18,7 @@ export const categoryQueryResolver: QueryResolvers = {
           userId: userId
         },
         include: {
-          chores: true
+          activities: true
         }
       })
       return { categories }
@@ -35,7 +35,7 @@ export const categoryQueryResolver: QueryResolvers = {
         where: {
           id: categoryId
         },
-        include: { owner: true, chores: true }
+        include: { owner: true, activities: true }
       })
       return category
     } catch (e) {
@@ -73,16 +73,16 @@ export const categoryMutationResolver: MutationResolvers = {
     }
   },
 
-  addChoresToCategory: async (_, { input }, ctx) => {
+  addActivitiesToCategory: async (_, { input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
-      if (!input?.choreIds?.length) {
+      if (!input?.activityIds?.length) {
         return null
       }
       return ctx.prisma.category.update({
         where: { id: input.categoryId },
         data: {
-          chores: { connect: input.choreIds?.map((id) => ({ id: id })) || [] }
+          activities: { connect: input.activityIds?.map((id) => ({ id: id })) || [] }
         }
       })
     } catch (e) {
@@ -90,17 +90,17 @@ export const categoryMutationResolver: MutationResolvers = {
     }
   },
 
-  removeChoresFromCategory: async (_, { input }, ctx) => {
+  removeActivitiesFromCategory: async (_, { input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
-      if (!input?.choreIds?.length) {
+      if (!input?.activityIds?.length) {
         return null
       }
       return ctx.prisma.category.update({
         where: { id: input.categoryId },
         data: {
-          chores: {
-            disconnect: input.choreIds?.map((id) => ({ id: id })) || []
+          activities: {
+            disconnect: input.activityIds?.map((id) => ({ id: id })) || []
           }
         }
       })
@@ -129,8 +129,8 @@ export const categoryObjectResolver: Resolvers = {
     owner: (parent, _, ctx) => {
       return ctx.prisma.user.findUniqueOrThrow({ where: { id: parent.userId } })
     },
-    chores: (parent, _, ctx) => {
-      return ctx.prisma.chore.findMany({ where: { categoryId: parent.id } })
+    activities: (parent, _, ctx) => {
+      return ctx.prisma.activity.findMany({ where: { categoryId: parent.id } })
     }
   },
 
