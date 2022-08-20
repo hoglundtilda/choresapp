@@ -41,7 +41,7 @@ export type Activity = {
 
 export type ActivityCollection = {
   __typename?: 'ActivityCollection';
-  activity: Maybe<Array<Maybe<Activity>>>;
+  activities: Maybe<Array<Maybe<Activity>>>;
 };
 
 export type ActivityCreateInput = {
@@ -109,7 +109,7 @@ export type Mutation = {
   createCategory: Maybe<Category>;
   createTimeRecord: Maybe<TimeRecord>;
   createUser: Maybe<CreateUserPayload>;
-  deleteActivity: Maybe<Array<Maybe<Scalars['ID']>>>;
+  deleteActivities: Maybe<Array<Maybe<Scalars['ID']>>>;
   deleteCategories: Maybe<Array<Maybe<Scalars['ID']>>>;
   deleteTimeRecords: Maybe<Array<Maybe<Scalars['ID']>>>;
   removeActivitiesFromCategory: Maybe<Category>;
@@ -148,7 +148,7 @@ export type MutationCreateUserArgs = {
 };
 
 
-export type MutationDeleteActivityArgs = {
+export type MutationDeleteActivitiesArgs = {
   input: ActivitiesDeleteInput;
 };
 
@@ -370,7 +370,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   ActivitiesDeleteInput: ActivitiesDeleteInput;
   Activity: ResolverTypeWrapper<ActivityModel>;
-  ActivityCollection: ResolverTypeWrapper<Omit<ActivityCollection, 'activity'> & { activity: Maybe<Array<Maybe<ResolversTypes['Activity']>>> }>;
+  ActivityCollection: ResolverTypeWrapper<Omit<ActivityCollection, 'activities'> & { activities: Maybe<Array<Maybe<ResolversTypes['Activity']>>> }>;
   ActivityCreateInput: ActivityCreateInput;
   ActivityUpdateInput: ActivityUpdateInput;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
@@ -406,7 +406,7 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   ActivitiesDeleteInput: ActivitiesDeleteInput;
   Activity: ActivityModel;
-  ActivityCollection: Omit<ActivityCollection, 'activity'> & { activity: Maybe<Array<Maybe<ResolversParentTypes['Activity']>>> };
+  ActivityCollection: Omit<ActivityCollection, 'activities'> & { activities: Maybe<Array<Maybe<ResolversParentTypes['Activity']>>> };
   ActivityCreateInput: ActivityCreateInput;
   ActivityUpdateInput: ActivityUpdateInput;
   AuthPayload: AuthPayload;
@@ -453,7 +453,7 @@ export type ActivityResolvers<ContextType = GraphqlContext, ParentType extends R
 }>;
 
 export type ActivityCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['ActivityCollection'] = ResolversParentTypes['ActivityCollection']> = ResolversObject<{
-  activity?: Resolver<Maybe<Array<Maybe<ResolversTypes['Activity']>>>, ParentType, ContextType>;
+  activities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Activity']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -495,7 +495,7 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'input' | 'userId'>>;
   createTimeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<MutationCreateTimeRecordArgs, 'input' | 'userId'>>;
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
-  deleteActivity?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteActivityArgs, 'input'>>;
+  deleteActivities?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteActivitiesArgs, 'input'>>;
   deleteCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteCategoriesArgs, 'input'>>;
   deleteTimeRecords?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteTimeRecordsArgs, 'input'>>;
   removeActivitiesFromCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationRemoveActivitiesFromCategoryArgs, 'input'>>;

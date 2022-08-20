@@ -7,18 +7,19 @@ import {
 
 export const activityQueryResolver: QueryResolvers = {
   activityCollection: async (_, { userId }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!userId)
       throw new UserInputError('No userId provided', {
         argumentName: 'userId'
       })
     try {
-      const activity = await ctx.prisma.activity.findMany({
+      const activities = await ctx.prisma.activity.findMany({
         where: { userId: userId },
         include: {
           owner: true
         }
       })
-      return { activity }
+      return { activities }
     } catch (e) {
       throw new Error(e)
     }
@@ -56,11 +57,11 @@ export const activityMutationResolver: MutationResolvers = {
     }
   },
 
-  updateActivity: async (_, { activityIds, input }, ctx) => {
+  updateActivity: async (_, { activityId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
       return ctx.prisma.activity.update({
-        where: { id: activityIds },
+        where: { id: activityId },
         data: {
           label: input?.label || undefined,
           startDate: input?.startDate || undefined,
@@ -122,7 +123,7 @@ export const activityObjectResolver: Resolvers = {
       }),
     totalTimeTraced: async (parent, _, ctx) => {
       const records = await ctx.prisma.timeRecord.findMany({
-        where: { activityIds: parent.id },
+        where: { activityId: parent.id },
         include: { activity: true, owner: true }
       })
       return records.reduce((acc, obj) => {

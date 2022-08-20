@@ -9,7 +9,7 @@ export const activitySchema = gql`
   extend type Mutation {
     createActivity(userId: ID!, input: ActivityCreateInput!): Activity
     updateActivity(activityId: ID!, input: ActivityUpdateInput!): Activity
-    deleteActivity(input: ActivitiesDeleteInput!): [ID]
+    deleteActivities(input: ActivitiesDeleteInput!): [ID]
   }
 
   type Activity {
@@ -26,7 +26,7 @@ export const activitySchema = gql`
   }
 
   type ActivityCollection {
-    activity: [Activity]
+    activities: [Activity]
   }
 
   input ActivityCreateInput {
