@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-core'
 export const timeRecordSchema = gql`
   extend type Query {
     timeRecord(timeRecordId: ID!): TimeRecord
-    timeRecordCollection(choreId: ID!): TimeRecordCollection
+    timeRecordCollection(activityId: ID!): TimeRecordCollection
   }
 
   extend type Mutation {
@@ -22,7 +22,7 @@ export const timeRecordSchema = gql`
     createdAt: DateTime!
     updatedAt: DateTime
     owner: User!
-    chore: Chore!
+    activity: Activity!
   }
 
   type TimeRecordCollection {
@@ -30,13 +30,13 @@ export const timeRecordSchema = gql`
   }
 
   input TimeRecordCreateInput {
-    choreId: ID!
+    activityId: ID!
     amount: Float!
     date: DateTime!
   }
 
   input TimeRecordUpdateInput {
-    choreId: ID!
+    activityId: ID!
     amount: Float
     date: DateTime
   }

@@ -21,7 +21,7 @@ generates:
       mappers:
         User: '../../node_modules/.prisma/client#User'
         Category: '../../node_modules/.prisma/client#Category'
-        Chore: '../../node_modules/.prisma/client#Chore'
+        Activity: '../../node_modules/.prisma/client#Activity'
 
 config:
   contextType: ../schema/context#GraphqlContext

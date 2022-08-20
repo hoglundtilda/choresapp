@@ -5,31 +5,32 @@ import {
   Resolvers
 } from '../../_generated/graphql'
 
-export const choreQueryResolver: QueryResolvers = {
-  choreCollection: async (_, { userId }, ctx) => {
+export const activityQueryResolver: QueryResolvers = {
+  activityCollection: async (_, { userId }, ctx) => {
+    if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!userId)
       throw new UserInputError('No userId provided', {
         argumentName: 'userId'
       })
     try {
-      const chores = await ctx.prisma.chore.findMany({
+      const activities = await ctx.prisma.activity.findMany({
         where: { userId: userId },
         include: {
           owner: true
         }
       })
-      return { chores }
+      return { activities }
     } catch (e) {
       throw new Error(e)
     }
   },
 
-  chore: async (_, { choreId }, ctx) => {
+  activity: async (_, { activityId }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
 
     try {
-      return ctx.prisma.chore.findUniqueOrThrow({
-        where: { id: choreId }
+      return ctx.prisma.activity.findUniqueOrThrow({
+        where: { id: activityId }
       })
     } catch (e) {
       throw new Error(e)
@@ -37,30 +38,30 @@ export const choreQueryResolver: QueryResolvers = {
   }
 }
 
-export const choreMutationResolver: MutationResolvers = {
-  deleteChores: async (_, { input }, ctx) => {
+export const activityMutationResolver: MutationResolvers = {
+  deleteActivities: async (_, { input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
-    if (!input.choreIds.length)
-      throw new UserInputError('No chore ids provided', {
+    if (!input.activityIds.length)
+      throw new UserInputError('No activity ids provided', {
         argumentName: 'id'
       })
 
     try {
       // TODO track which ids got deleted instead
-      await ctx.prisma.chore.deleteMany({
-        where: { id: { in: input.choreIds } }
+      await ctx.prisma.activity.deleteMany({
+        where: { id: { in: input.activityIds } }
       })
-      return input.choreIds
+      return input.activityIds
     } catch (e) {
       throw new Error(e)
     }
   },
 
-  updateChore: async (_, { choreId, input }, ctx) => {
+  updateActivity: async (_, { activityId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
-      return ctx.prisma.chore.update({
-        where: { id: choreId },
+      return ctx.prisma.activity.update({
+        where: { id: activityId },
         data: {
           label: input?.label || undefined,
           startDate: input?.startDate || undefined,
@@ -72,36 +73,36 @@ export const choreMutationResolver: MutationResolvers = {
     }
   },
 
-  createChore: async (_, { userId, input }, ctx) => {
+  createActivity: async (_, { userId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!input.label)
       throw new UserInputError('Label needs to be provided', {
         argumentName: 'label'
       })
     try {
-      const chore = await ctx.prisma.chore.create({
+      const activity = await ctx.prisma.activity.create({
         data: {
           label: input.label,
           owner: { connect: { id: userId } },
           startDate: input.startDate || Date.now()
         }
       })
-      if (input.categoryId && chore.id) {
+      if (input.categoryId && activity.id) {
         await ctx.prisma.category.update({
           where: { id: input.categoryId },
-          data: { chores: { connect: { id: chore.id } } }
+          data: { activities: { connect: { id: activity.id } } }
         })
       }
 
-      return chore
+      return activity
     } catch (e) {
       throw new Error(e)
     }
   }
 }
 
-export const choreObjectResolver: Resolvers = {
-  Chore: {
+export const activityObjectResolver: Resolvers = {
+  Activity: {
     id: (parent) => parent.id,
     label: (parent) => parent.label,
     startDate: (parent) => parent.startDate,
@@ -117,13 +118,13 @@ export const choreObjectResolver: Resolvers = {
     },
     timeRecords: (parent, _, ctx) =>
       ctx.prisma.timeRecord.findMany({
-        where: { choreId: parent.id },
-        include: { chore: true, owner: true }
+        where: { activityId: parent.id },
+        include: { activity: true, owner: true }
       }),
     totalTimeTraced: async (parent, _, ctx) => {
       const records = await ctx.prisma.timeRecord.findMany({
-        where: { choreId: parent.id },
-        include: { chore: true, owner: true }
+        where: { activityId: parent.id },
+        include: { activity: true, owner: true }
       })
       return records.reduce((acc, obj) => {
         return acc + obj.amount
@@ -131,7 +132,7 @@ export const choreObjectResolver: Resolvers = {
     }
   },
 
-  ChoreCollection: {
-    chores: (parent) => parent.chores
+  ActivityCollection: {
+    activities: (parent) => parent.activities
   }
 }

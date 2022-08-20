@@ -9,8 +9,8 @@ export const categorySchema = gql`
   extend type Mutation {
     createCategory(userId: ID!, input: CategoryCreateInput!): Category
     updateCategory(categoryId: ID!, input: CategoryUpdateInput!): Category
-    addChoresToCategory(input: CategoryAddChoreInput!): Category
-    removeChoresFromCategory(input: CategoryRemoveChoreInput!): Category
+    addActivitiesToCategory(input: CategoryAddActivitiesInput!): Category
+    removeActivitiesFromCategory(input: CategoryRemoveActivityInput!): Category
     deleteCategories(input: CategoriesDeleteInput!): [ID]
   }
 
@@ -18,11 +18,11 @@ export const categorySchema = gql`
     id: ID!
     title: String!
     owner: User!
-    chores: [Chore!]
+    activities: [Activity]
   }
 
   type CategoryCollection {
-    categories: [Category!]
+    categories: [Category]
   }
 
   input CategoryCreateInput {
@@ -33,13 +33,13 @@ export const categorySchema = gql`
     title: String!
   }
 
-  input CategoryAddChoreInput {
-    choreIds: [ID!]!
+  input CategoryAddActivitiesInput {
+    activityIds: [ID!]!
     categoryId: ID!
   }
 
-  input CategoryRemoveChoreInput {
-    choreIds: [ID!]!
+  input CategoryRemoveActivityInput {
+    activityIds: [ID!]!
     categoryId: ID!
   }
 

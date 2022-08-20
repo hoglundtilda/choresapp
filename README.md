@@ -1,4 +1,4 @@
-# Chores App
+# Activities App
 
 ##
 
@@ -46,7 +46,7 @@ docker build . -t choresbackend/cra-docker
 
 ### JWT
 
-Must choose a passphrase.
+Must choose a passphrase
 
 #### Generate private key
 

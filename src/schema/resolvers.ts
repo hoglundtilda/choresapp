@@ -11,10 +11,10 @@ import {
   categoryQueryResolver
 } from './category/category.resolver'
 import {
-  choreMutationResolver,
-  choreObjectResolver,
-  choreQueryResolver
-} from './chore/chore.resolver'
+  activityMutationResolver,
+  activityObjectResolver,
+  activityQueryResolver
+} from './activity/activity.resolver'
 import {
   timeRecordMutationResolver,
   timeRecordObjectResolver,
@@ -25,20 +25,20 @@ export const resolvers: Resolvers = {
   Query: {
     ...userQueryResolver,
     ...categoryQueryResolver,
-    ...choreQueryResolver,
+    ...activityQueryResolver,
     ...timeRecordQueryResolver
   },
 
   Mutation: {
     ...userMutationResolver,
     ...categoryMutationResolver,
-    ...choreMutationResolver,
+    ...activityMutationResolver,
     ...timeRecordMutationResolver
   },
 
   ...userObjectResolver,
   ...categoryObjectResolver,
-  ...choreObjectResolver,
+  ...activityObjectResolver,
   ...timeRecordObjectResolver,
   ...sharedSchemaResolver
 }
