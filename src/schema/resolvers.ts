@@ -42,3 +42,4 @@ export const resolvers: Resolvers = {
   ...timeRecordObjectResolver,
   ...sharedSchemaResolver
 }
+

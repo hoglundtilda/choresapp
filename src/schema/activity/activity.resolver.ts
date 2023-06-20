@@ -29,7 +29,7 @@ export const activityQueryResolver: QueryResolvers = {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
 
     try {
-      return ctx.prisma.activity.findUniqueOrThrow({
+      return await ctx.prisma.activity.findUniqueOrThrow({
         where: { id: activityId }
       })
     } catch (e) {
@@ -63,9 +63,9 @@ export const activityMutationResolver: MutationResolvers = {
       return ctx.prisma.activity.update({
         where: { id: activityId },
         data: {
-          label: input?.label || undefined,
-          startDate: input?.startDate || undefined,
-          endDate: input?.endDate || undefined
+          label: input?.label ?? undefined,
+          startDate: input?.startDate ?? undefined,
+          endDate: input?.endDate ?? undefined
         }
       })
     } catch (e) {
@@ -136,3 +136,4 @@ export const activityObjectResolver: Resolvers = {
     activities: (parent) => parent.activities
   }
 }
+

@@ -1,11 +1,9 @@
 // import { prisma } from "../db/db.connection"
 
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from '@prisma/client'
 // import { User } from "src/_generated/graphql"
 
-
 export const getUser = async (userId: string, prisma: PrismaClient) => {
-
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -13,9 +11,14 @@ export const getUser = async (userId: string, prisma: PrismaClient) => {
       }
     })
     if (!user) return null
-    return { userId: user.id, displayName: user.displayName, email: user.email, createdAt: user.createdAt }
+    return {
+      userId: user.id,
+      displayName: user.displayName,
+      email: user.email,
+      createdAt: user.createdAt
+    }
   } catch (e) {
     throw new Error(e)
   }
-
 }
+

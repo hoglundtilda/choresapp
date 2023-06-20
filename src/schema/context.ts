@@ -1,8 +1,7 @@
-import { PrismaClient, User } from "@prisma/client"
+import { PrismaClient, User } from '@prisma/client'
 
 export type GraphqlContext = {
-  prisma: PrismaClient,
+  prisma: PrismaClient
   user: User | null
 }
-
 

@@ -86,7 +86,7 @@ export const timeRecordMutationResolver: MutationResolvers = {
 
   deleteTimeRecords: async (_, { input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
-    if (!input) throw new UserInputError('No isd provided')
+    if (!input) throw new UserInputError('No ids provided')
 
     try {
       await ctx.prisma.timeRecord.deleteMany({
@@ -113,3 +113,4 @@ export const timeRecordObjectResolver: Resolvers = {
     timeRecords: (parent) => parent.timeRecords
   }
 }
+

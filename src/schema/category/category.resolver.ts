@@ -49,7 +49,7 @@ export const categoryMutationResolver: MutationResolvers = {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!input.title) throw new UserInputError('Title need to be provided')
     try {
-      return ctx.prisma.category.create({
+      return await ctx.prisma.category.create({
         data: {
           title: input.title,
           owner: { connect: { id: userId } }
@@ -64,7 +64,7 @@ export const categoryMutationResolver: MutationResolvers = {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!input.title) throw new UserInputError('Title need to be provided')
     try {
-      return ctx.prisma.category.update({
+      return await ctx.prisma.category.update({
         where: { id: categoryId },
         data: { title: input.title }
       })
@@ -82,7 +82,9 @@ export const categoryMutationResolver: MutationResolvers = {
       return ctx.prisma.category.update({
         where: { id: input.categoryId },
         data: {
-          activities: { connect: input.activityIds?.map((id) => ({ id: id })) || [] }
+          activities: {
+            connect: input.activityIds?.map((id) => ({ id: id })) || []
+          }
         }
       })
     } catch (e) {
@@ -138,3 +140,4 @@ export const categoryObjectResolver: Resolvers = {
     categories: (parent) => parent.categories
   }
 }
+
