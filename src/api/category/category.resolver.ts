@@ -114,6 +114,22 @@ export const categoryMutationResolver: MutationResolvers = {
   deleteCategories: async (_, { input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
+      if (input.cascade) {
+        for (const categoryId of input.categoryIds) {
+          const activities = await ctx.prisma.activity.findMany({
+            where: { categoryId: categoryId }
+          })
+          for (const activity of activities) {
+            await ctx.prisma.timeRecord.deleteMany({
+              where: { activityId: activity.id }
+            })
+          }
+          await ctx.prisma.activity.deleteMany({
+            where: { categoryId: categoryId }
+          })
+        }
+      }
+
       await ctx.prisma.category.deleteMany({
         where: { id: { in: input.categoryIds } }
       })

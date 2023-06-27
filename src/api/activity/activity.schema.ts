@@ -43,5 +43,7 @@ export const activitySchema = gql`
 
   input ActivitiesDeleteInput {
     activityIds: [ID!]!
+    cascade: Boolean
   }
 `
+

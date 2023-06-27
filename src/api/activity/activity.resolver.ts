@@ -47,11 +47,25 @@ export const activityMutationResolver: MutationResolvers = {
       })
 
     try {
-      // TODO track which ids got deleted instead
-      await ctx.prisma.activity.deleteMany({
+      const activitiesToDelete = await ctx.prisma.activity.findMany({
         where: { id: { in: input.activityIds } }
       })
-      return input.activityIds
+
+      if (input.cascade) {
+        for (const activity of activitiesToDelete) {
+          await ctx.prisma.timeRecord.deleteMany({
+            where: { activityId: activity.id }
+          })
+        }
+      }
+
+      await ctx.prisma.activity.deleteMany({
+        where: {
+          id: { in: activitiesToDelete.map((activity) => activity.id) }
+        }
+      })
+
+      return activitiesToDelete.map((activity) => activity.id)
     } catch (e) {
       throw new Error(e)
     }
@@ -60,7 +74,7 @@ export const activityMutationResolver: MutationResolvers = {
   updateActivity: async (_, { activityId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     try {
-      return ctx.prisma.activity.update({
+      return await ctx.prisma.activity.update({
         where: { id: activityId },
         data: {
           label: input?.label ?? undefined,

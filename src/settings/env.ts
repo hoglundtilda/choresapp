@@ -12,12 +12,13 @@ export const RequiredSettings: Record<string, string> = {
   databaseName: ensureEnv('DB_NAME'),
   databasePort: ensureEnv('DB_PORT'),
   databaseUrl: ensureEnv('DATABASE_URL'),
-  googleClientId: ensureEnv('GOOGLE_CLIENT_ID'),
-  googleClientSecret: ensureEnv('GOOGLE_CLIENT_SECRET'),
-  sessionSecret: ensureEnv('SESSION_SECRET'),
+  // googleClientId: ensureEnv('GOOGLE_CLIENT_ID'),
+  // googleClientSecret: ensureEnv('GOOGLE_CLIENT_SECRET'),
+  // sessionSecret: ensureEnv('SESSION_SECRET'),
   privateKeyFile: ensureEnv('PRIVATE_KEY_FILE'),
   privateKeyPassphrase: ensureEnv('PRIVATE_KEY_PASSPHRASE'),
   publicKeyFile: ensureEnv('PUBLIC_KEY_FILE')
 }
 
 export const OptionalSettings: Record<string, string | undefined> = {}
+

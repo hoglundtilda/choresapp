@@ -6,13 +6,10 @@ import express from 'express'
 import { configureApp } from './app'
 // import { ConnectPrismaClient } from './db/db.connection'
 import { logger } from './lib'
-import { createApolloServer } from './schema/graphql.server'
+import { createApolloServer } from './api/graphql.server'
 import { RequiredSettings } from './settings/env'
 
 // import { initPassport } from './services/authService/Passport.Strategy';
-
-
-
 
 export const startServer = async () => {
   try {
@@ -58,3 +55,4 @@ export const startServer = async () => {
 }
 
 export default startServer()
+

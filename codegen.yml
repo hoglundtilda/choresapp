@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'src/schema/**/*.ts'
+schema: 'src/api/**/*.ts'
 generates:
   src/_generated/graphql-schema.json:
     plugins:
@@ -24,8 +24,9 @@ generates:
         Activity: '../../node_modules/.prisma/client#Activity'
 
 config:
-  contextType: ../schema/context#GraphqlContext
+  contextType: ../types/Context.type#GraphqlContext
   scalars:
     Date: Date
     Time: Date
     DateTime: Date
+
