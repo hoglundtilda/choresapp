@@ -1,7 +1,7 @@
 /* tslint:disable */
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 import { User as UserModel, Category as CategoryModel, Activity as ActivityModel } from '../../node_modules/.prisma/client';
-import { GraphqlContext } from '../schema/context';
+import { GraphqlContext } from '../types/Context.type';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -23,6 +23,7 @@ export type Scalars = {
 
 export type ActivitiesDeleteInput = {
   activityIds: Array<Scalars['ID']>;
+  cascade?: InputMaybe<Scalars['Boolean']>;
 };
 
 export type Activity = {
@@ -63,6 +64,7 @@ export type AuthPayload = {
 };
 
 export type CategoriesDeleteInput = {
+  cascade?: InputMaybe<Scalars['Boolean']>;
   categoryIds: Array<Scalars['ID']>;
 };
 
@@ -365,6 +367,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   context: TContext,
   info: GraphQLResolveInfo
 ) => TResult | Promise<TResult>;
+
+
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{

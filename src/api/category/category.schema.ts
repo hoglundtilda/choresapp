@@ -45,5 +45,7 @@ export const categorySchema = gql`
 
   input CategoriesDeleteInput {
     categoryIds: [ID!]!
+    cascade: Boolean
   }
 `
+

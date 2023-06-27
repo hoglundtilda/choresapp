@@ -33,8 +33,7 @@ heroku container:login
 
 heroku container:push web --app choresbackend
 
-heroku container:release web
-
+heroku container:release web --app choresbackend
 
 ```
 
@@ -46,7 +45,8 @@ docker build . -t choresbackend/cra-docker
 
 ### JWT
 
-Must choose a passphrase
+- Make sure to have the passphrase securely stored.
+- Data in db will be lost if passphrase is lost.
 
 #### Generate private key
 
@@ -59,3 +59,4 @@ openssl genpkey -algorithm RSA -aes256 -out config/jwt/private.pem
 ```
 openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/public.pem
 ```
+
