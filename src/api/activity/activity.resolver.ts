@@ -77,7 +77,7 @@ export const activityMutationResolver: MutationResolvers = {
       return await ctx.prisma.activity.update({
         where: { id: activityId },
         data: {
-          label: input?.label ?? undefined,
+          name: input?.name ?? undefined,
           startDate: input?.startDate ?? undefined,
           endDate: input?.endDate ?? undefined
         }
@@ -89,14 +89,14 @@ export const activityMutationResolver: MutationResolvers = {
 
   createActivity: async (_, { userId, input }, ctx) => {
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
-    if (!input.label)
-      throw new UserInputError('Label needs to be provided', {
-        argumentName: 'label'
+    if (!input.name)
+      throw new UserInputError('Name needs to be provided', {
+        argumentName: 'name'
       })
     try {
       const activity = await ctx.prisma.activity.create({
         data: {
-          label: input.label,
+          name: input.name,
           owner: { connect: { id: userId } },
           startDate: input.startDate || Date.now()
         }
@@ -118,7 +118,7 @@ export const activityMutationResolver: MutationResolvers = {
 export const activityObjectResolver: Resolvers = {
   Activity: {
     id: (parent) => parent.id,
-    label: (parent) => parent.label,
+    name: (parent) => parent.name,
     startDate: (parent) => parent.startDate,
     endDate: (parent) => parent.endDate,
     owner: (parent, _, ctx) => {

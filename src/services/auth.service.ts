@@ -13,7 +13,7 @@ export const getUser = async (userId: string, prisma: PrismaClient) => {
     if (!user) return null
     return {
       userId: user.id,
-      displayName: user.displayName,
+      name: user.name,
       email: user.email,
       createdAt: user.createdAt
     }

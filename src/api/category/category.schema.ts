@@ -16,7 +16,7 @@ export const categorySchema = gql`
 
   type Category {
     id: ID!
-    title: String!
+    name: String!
     owner: User!
     activities: [Activity]
   }
@@ -26,11 +26,11 @@ export const categorySchema = gql`
   }
 
   input CategoryCreateInput {
-    title: String!
+    name: String!
   }
 
   input CategoryUpdateInput {
-    title: String!
+    name: String!
   }
 
   input CategoryAddActivitiesInput {

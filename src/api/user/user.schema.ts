@@ -1,12 +1,12 @@
 import { gql } from 'apollo-server-core'
 
 export const userSchema = gql`
-   type Query {
+  type Query {
     getUser(userId: ID!): User
     loginUser(input: UserLoginInput!): AuthPayload!
   }
 
-   type Mutation {
+  type Mutation {
     createUser(input: UserCreateInput!): CreateUserPayload
     updateUser(userId: ID!, input: UserUpdateInput!): User
   }
@@ -15,7 +15,7 @@ export const userSchema = gql`
     id: ID!
     createdAt: DateTime!
     email: String!
-    displayName: String!
+    name: String!
   }
 
   type CreateUserPayload {
@@ -33,12 +33,13 @@ export const userSchema = gql`
   }
 
   input UserCreateInput {
-    displayName: String!
+    name: String!
     email: String!
     password: String!
   }
 
   input UserUpdateInput {
-    displayName: String
+    name: String
   }
 `
+

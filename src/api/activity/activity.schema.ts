@@ -14,7 +14,7 @@ export const activitySchema = gql`
 
   type Activity {
     id: ID!
-    label: String!
+    name: String!
     createdAt: DateTime!
     updatedAt: DateTime
     startDate: DateTime!
@@ -31,12 +31,12 @@ export const activitySchema = gql`
 
   input ActivityCreateInput {
     categoryId: ID!
-    label: String!
+    name: String!
     startDate: DateTime!
   }
 
   input ActivityUpdateInput {
-    label: String
+    name: String
     startDate: DateTime!
     endDate: DateTime
   }

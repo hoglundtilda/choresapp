@@ -1,10 +1,10 @@
 import { AuthenticationError, UserInputError } from 'apollo-server-express'
-import { comparePassword, createPassword, jwtSign } from '../../services'
 import {
   MutationResolvers,
   QueryResolvers,
   Resolvers
 } from '../../_generated/graphql'
+import { comparePassword, createPassword, jwtSign } from '../../services'
 
 export const userQueryResolver: QueryResolvers = {
   getUser: async (_, { userId }, ctx) => {
@@ -49,9 +49,9 @@ export const userQueryResolver: QueryResolvers = {
 
 export const userMutationResolver: MutationResolvers = {
   createUser: async (_, { input }, ctx) => {
-    if (!input.displayName || input.displayName.length < 2)
-      throw new UserInputError('Not a valid display name', {
-        argumentName: 'displayName'
+    if (!input.name || input.name.length < 2)
+      throw new UserInputError('Not a valid name name', {
+        argumentName: 'name'
       })
     if (!input.email)
       throw new UserInputError('Must provide a valid email', {
@@ -68,7 +68,7 @@ export const userMutationResolver: MutationResolvers = {
       return ctx.prisma.user.create({
         data: {
           email: input.email,
-          displayName: input.displayName,
+          name: input.name,
           password: hashedPassword
         }
       })
@@ -83,16 +83,16 @@ export const userMutationResolver: MutationResolvers = {
       throw new UserInputError('User not authenticated', {
         argumentName: 'userId'
       })
-    if (!input.displayName || input.displayName.length < 2)
-      throw new UserInputError('Not a valid display name', {
-        argumentName: 'displayName'
+    if (!input.name || input.name.length < 2)
+      throw new UserInputError('Not a valid name', {
+        argumentName: 'name'
       })
 
     try {
       return await ctx.prisma.user.update({
         where: { id: userId },
         data: {
-          displayName: input.displayName
+          name: input.name
         }
       })
     } catch (e) {
@@ -106,7 +106,7 @@ export const userObjectResolver: Resolvers = {
     id: (user) => user.id,
     createdAt: (user) => user.createdAt,
     email: (user) => user.email,
-    displayName: (user) => user.displayName
+    name: (user) => user.name
   },
 
   AuthPayload: {

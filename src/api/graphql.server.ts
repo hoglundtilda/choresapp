@@ -1,18 +1,18 @@
 import * as http from 'http'
-import { ApolloServer } from 'apollo-server-express'
+
 import {
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageLocalDefault
 } from 'apollo-server-core'
-import { PrismaClient } from '@prisma/client'
+import { getUser, jwtVerify } from '../services'
 
+import { ApolloServer } from 'apollo-server-express'
+import { GraphqlContext } from '../types/Context.type'
+import { PrismaClient } from '@prisma/client'
+import { RequiredSettings } from '../settings/env'
 import { resolvers } from './resolvers'
 import { typeDefs } from './typeDefs'
-import { jwtVerify } from '../services/jwt.service'
-import { getUser } from '../services/auth.service'
-import { RequiredSettings } from '../settings/env'
-import { GraphqlContext } from '../types/Context.type'
 
 const prisma = new PrismaClient()
 export const createApolloServer = (httpServer: http.Server) => {

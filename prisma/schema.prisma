@@ -5,13 +5,14 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Category {
   id        String   @id @unique @default(uuid())
-  title     String
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -22,7 +23,7 @@ model Category {
 
 model Activity {
   id        String    @id @unique @default(uuid())
-  label     String
+  name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt()
   startDate DateTime  @default(now())
@@ -49,11 +50,11 @@ model TimeRecord {
 }
 
 model User {
-  id          String   @id @unique @default(uuid())
-  createdAt   DateTime @default(now())
-  email       String   @unique
-  displayName String
-  password    String   @db.VarChar(82)
+  id        String   @id @unique @default(uuid())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String
+  password  String   @db.VarChar(82)
 
   categories  Category[]
   activities  Activity[]

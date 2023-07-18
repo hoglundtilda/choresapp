@@ -60,3 +60,8 @@ openssl genpkey -algorithm RSA -aes256 -out config/jwt/private.pem
 openssl rsa -in config/jwt/private.pem -pubout -outform PEM -out config/jwt/public.pem
 ```
 
+## Prisma
+
+When changes have been made to prisma schema run:
+`npm run generate:prisma-schema`
+

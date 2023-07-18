@@ -117,7 +117,7 @@
             "deprecationReason": null
           },
           {
-            "name": "label",
+            "name": "name",
             "description": null,
             "args": [],
             "type": {
@@ -264,7 +264,7 @@
             "deprecationReason": null
           },
           {
-            "name": "label",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -319,7 +319,7 @@
             "deprecationReason": null
           },
           {
-            "name": "label",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -489,6 +489,22 @@
             "deprecationReason": null
           },
           {
+            "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "owner",
             "description": null,
             "args": [],
@@ -498,22 +514,6 @@
               "ofType": {
                 "kind": "OBJECT",
                 "name": "User",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "title",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
                 "ofType": null
               }
             },
@@ -611,7 +611,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "title",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -689,7 +689,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "title",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -1864,22 +1864,6 @@
             "deprecationReason": null
           },
           {
-            "name": "displayName",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "email",
             "description": null,
             "args": [],
@@ -1910,6 +1894,22 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "name",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -1924,7 +1924,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "displayName",
+            "name": "email",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -1940,7 +1940,7 @@
             "deprecationReason": null
           },
           {
-            "name": "email",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "NON_NULL",
@@ -2026,7 +2026,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "displayName",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "SCALAR",

@@ -32,7 +32,7 @@ export type Activity = {
   createdAt: Scalars['DateTime'];
   endDate: Maybe<Scalars['DateTime']>;
   id: Scalars['ID'];
-  label: Scalars['String'];
+  name: Scalars['String'];
   owner: User;
   startDate: Scalars['DateTime'];
   timeRecords: Maybe<Array<Maybe<TimeRecord>>>;
@@ -47,13 +47,13 @@ export type ActivityCollection = {
 
 export type ActivityCreateInput = {
   categoryId: Scalars['ID'];
-  label: Scalars['String'];
+  name: Scalars['String'];
   startDate: Scalars['DateTime'];
 };
 
 export type ActivityUpdateInput = {
   endDate?: InputMaybe<Scalars['DateTime']>;
-  label?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   startDate: Scalars['DateTime'];
 };
 
@@ -72,8 +72,8 @@ export type Category = {
   __typename?: 'Category';
   activities: Maybe<Array<Maybe<Activity>>>;
   id: Scalars['ID'];
+  name: Scalars['String'];
   owner: User;
-  title: Scalars['String'];
 };
 
 export type CategoryAddActivitiesInput = {
@@ -87,7 +87,7 @@ export type CategoryCollection = {
 };
 
 export type CategoryCreateInput = {
-  title: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type CategoryRemoveActivityInput = {
@@ -96,7 +96,7 @@ export type CategoryRemoveActivityInput = {
 };
 
 export type CategoryUpdateInput = {
-  title: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type CreateUserPayload = {
@@ -280,14 +280,14 @@ export type TimeRecordUpdateInput = {
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
-  displayName: Scalars['String'];
   email: Scalars['String'];
   id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type UserCreateInput = {
-  displayName: Scalars['String'];
   email: Scalars['String'];
+  name: Scalars['String'];
   password: Scalars['String'];
 };
 
@@ -297,7 +297,7 @@ export type UserLoginInput = {
 };
 
 export type UserUpdateInput = {
-  displayName?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -447,7 +447,7 @@ export type ActivityResolvers<ContextType = GraphqlContext, ParentType extends R
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  label?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   startDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   timeRecords?: Resolver<Maybe<Array<Maybe<ResolversTypes['TimeRecord']>>>, ParentType, ContextType>;
@@ -470,8 +470,8 @@ export type AuthPayloadResolvers<ContextType = GraphqlContext, ParentType extend
 export type CategoryResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Category'] = ResolversParentTypes['Category']> = ResolversObject<{
   activities?: Resolver<Maybe<Array<Maybe<ResolversTypes['Activity']>>>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
-  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -542,9 +542,9 @@ export type TimeRecordCollectionResolvers<ContextType = GraphqlContext, ParentTy
 
 export type UserResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = ResolversObject<{
   createdAt?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
-  displayName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
