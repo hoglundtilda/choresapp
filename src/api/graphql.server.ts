@@ -2,7 +2,6 @@ import * as http from 'http'
 
 import {
   ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageLocalDefault
 } from 'apollo-server-core'
 import { getUser, jwtVerify } from '../services'
@@ -10,7 +9,7 @@ import { getUser, jwtVerify } from '../services'
 import { ApolloServer } from 'apollo-server-express'
 import { GraphqlContext } from '../types/Context.type'
 import { PrismaClient } from '@prisma/client'
-import { RequiredSettings } from '../settings/env'
+// import { RequiredSettings } from '../settings/env'
 import { resolvers } from './resolvers'
 import { typeDefs } from './typeDefs'
 
@@ -23,9 +22,10 @@ export const createApolloServer = (httpServer: http.Server) => {
     // introspection: RequiredSettings.environment !== 'production',
 
     plugins: [
-      RequiredSettings.environment === 'production'
-        ? ApolloServerPluginLandingPageGraphQLPlayground()
-        : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+      // RequiredSettings.environment === 'production'
+      //   ? ApolloServerPluginLandingPageGraphQLPlayground()
+      //   : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
+      ApolloServerPluginLandingPageLocalDefault({ footer: false }),
       ApolloServerPluginDrainHttpServer({ httpServer })
     ],
 

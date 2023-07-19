@@ -37,10 +37,10 @@ export const timeRecordMutationResolver: MutationResolvers = {
         argumentName: 'activityIds'
       })
     if (!input.amount)
-      throw new UserInputError('No input provided', { argumentName: 'input' })
-    if (!input.date)
-      throw new UserInputError('No input provided', { argumentName: 'input' })
-
+      throw new UserInputError('No input provided', { argumentName: 'amount' })
+    // if (!input.date)
+    //   throw new UserInputError('No input provided', { argumentName: 'date' })
+    // TODO create date here if it is undefined, and update FE
     try {
       return await ctx.prisma.timeRecord.create({
         data: {
