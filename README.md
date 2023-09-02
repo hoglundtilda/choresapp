@@ -5,13 +5,13 @@
 ### Install
 
 ```
-yarn
+npm install
 ```
 
 ### Start server
 
 ```
-yarn dev
+npm run dev
 ```
 
 ## DB
@@ -19,7 +19,7 @@ yarn dev
 ### Migration
 
 ```
-npx prisma migrate dev --name init
+npx prisma migrate dev --name [name]
 ```
 
 ### Heroku Deploy

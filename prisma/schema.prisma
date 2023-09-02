@@ -1,12 +1,12 @@
 generator client {
   provider = "prisma-client-js"
-  // Do not use this
-  // output   = "../src/_generated/client"
 }
 
 datasource db {
   provider          = "postgresql"
+  // Postgres RED
   url               = env("DATABASE_URL")
+  // Postgres SILVER
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
@@ -16,8 +16,8 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userId     String
-  owner      User       @relation(fields: [userId], references: [id])
+  userId     String?
+  owner      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
   activities Activity[]
 }
 
@@ -30,9 +30,9 @@ model Activity {
   endDate   DateTime?
 
   categoryId  String?
-  userId      String
-  owner       User         @relation(fields: [userId], references: [id])
-  category    Category?    @relation(fields: [categoryId], references: [id])
+  userId      String?
+  owner       User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category    Category?    @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   timeRecords TimeRecord[]
 }
 
@@ -43,10 +43,21 @@ model TimeRecord {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 
-  userId     String
-  activityId String
-  owner      User     @relation(fields: [userId], references: [id])
-  activity   Activity @relation(fields: [activityId], references: [id])
+  userId     String?
+  activityId String?
+  owner      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activity   Activity? @relation(fields: [activityId], references: [id], onDelete: Cascade)
+}
+
+model Streak {
+  id        String    @id @unique @default(uuid())
+  startDate DateTime  @default(now())
+  endDate   DateTime?
+  name      String
+  count     Int       @default(0)
+
+  userId String?
+  owner  User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
@@ -59,4 +70,5 @@ model User {
   categories  Category[]
   activities  Activity[]
   timeRecords TimeRecord[]
+  streaks     Streak[]
 }

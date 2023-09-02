@@ -1,6 +1,6 @@
 /* tslint:disable */
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-import { User as UserModel, Category as CategoryModel, Activity as ActivityModel } from '../../node_modules/.prisma/client';
+import { User as UserModel, Category as CategoryModel, Activity as ActivityModel, TimeRecord as TimeRecordModel, Streak as StreakModel } from '../../node_modules/.prisma/client';
 import { GraphqlContext } from '../types/Context.type';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -109,14 +109,17 @@ export type Mutation = {
   addActivitiesToCategory: Maybe<Category>;
   createActivity: Maybe<Activity>;
   createCategory: Maybe<Category>;
+  createStreak: Maybe<Streak>;
   createTimeRecord: Maybe<TimeRecord>;
   createUser: Maybe<CreateUserPayload>;
   deleteActivities: Maybe<Array<Maybe<Scalars['ID']>>>;
   deleteCategories: Maybe<Array<Maybe<Scalars['ID']>>>;
+  deleteStreaks: Maybe<Array<Maybe<Scalars['ID']>>>;
   deleteTimeRecords: Maybe<Array<Maybe<Scalars['ID']>>>;
   removeActivitiesFromCategory: Maybe<Category>;
   updateActivity: Maybe<Activity>;
   updateCategory: Maybe<Category>;
+  updateStreak: Maybe<Streak>;
   updateTimeRecord: Maybe<TimeRecord>;
   updateUser: Maybe<User>;
 };
@@ -135,6 +138,12 @@ export type MutationCreateActivityArgs = {
 
 export type MutationCreateCategoryArgs = {
   input: CategoryCreateInput;
+  userId: Scalars['ID'];
+};
+
+
+export type MutationCreateStreakArgs = {
+  input: StreakCreateInput;
   userId: Scalars['ID'];
 };
 
@@ -160,6 +169,11 @@ export type MutationDeleteCategoriesArgs = {
 };
 
 
+export type MutationDeleteStreaksArgs = {
+  input: StrwakDeleteInput;
+};
+
+
 export type MutationDeleteTimeRecordsArgs = {
   input: TimeRecordDeleteInput;
 };
@@ -182,6 +196,12 @@ export type MutationUpdateCategoryArgs = {
 };
 
 
+export type MutationUpdateStreakArgs = {
+  input: StreakUpdateInput;
+  streakId: Scalars['ID'];
+};
+
+
 export type MutationUpdateTimeRecordArgs = {
   input: TimeRecordUpdateInput;
   timeRecordId: Scalars['ID'];
@@ -201,6 +221,8 @@ export type Query = {
   categoryCollection: Maybe<CategoryCollection>;
   getUser: Maybe<User>;
   loginUser: AuthPayload;
+  streak: Maybe<Streak>;
+  streakCollection: Maybe<StreakCollection>;
   timeRecord: Maybe<TimeRecord>;
   timeRecordCollection: Maybe<TimeRecordCollection>;
 };
@@ -236,6 +258,16 @@ export type QueryLoginUserArgs = {
 };
 
 
+export type QueryStreakArgs = {
+  streakId: Scalars['ID'];
+};
+
+
+export type QueryStreakCollectionArgs = {
+  userId: Scalars['ID'];
+};
+
+
 export type QueryTimeRecordArgs = {
   timeRecordId: Scalars['ID'];
 };
@@ -243,6 +275,39 @@ export type QueryTimeRecordArgs = {
 
 export type QueryTimeRecordCollectionArgs = {
   activityId: Scalars['ID'];
+};
+
+export type Streak = {
+  __typename?: 'Streak';
+  count: Scalars['Int'];
+  endDate: Maybe<Scalars['DateTime']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  owner: User;
+  startDate: Maybe<Scalars['DateTime']>;
+};
+
+export type StreakCollection = {
+  __typename?: 'StreakCollection';
+  streaks: Maybe<Array<Maybe<Streak>>>;
+};
+
+export type StreakCreateInput = {
+  count?: InputMaybe<Scalars['Int']>;
+  endDate?: InputMaybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  startDate?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type StreakUpdateInput = {
+  count?: InputMaybe<Scalars['Int']>;
+  endDate?: InputMaybe<Scalars['DateTime']>;
+  name?: InputMaybe<Scalars['String']>;
+  startDate?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type StrwakDeleteInput = {
+  streakIds: Array<Scalars['ID']>;
 };
 
 export type TimeRecord = {
@@ -391,11 +456,17 @@ export type ResolversTypes = ResolversObject<{
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  Streak: ResolverTypeWrapper<StreakModel>;
+  StreakCollection: ResolverTypeWrapper<Omit<StreakCollection, 'streaks'> & { streaks: Maybe<Array<Maybe<ResolversTypes['Streak']>>> }>;
+  StreakCreateInput: StreakCreateInput;
+  StreakUpdateInput: StreakUpdateInput;
   String: ResolverTypeWrapper<Scalars['String']>;
+  StrwakDeleteInput: StrwakDeleteInput;
   Time: ResolverTypeWrapper<Scalars['Time']>;
-  TimeRecord: ResolverTypeWrapper<Omit<TimeRecord, 'activity' | 'owner'> & { activity: ResolversTypes['Activity'], owner: ResolversTypes['User'] }>;
+  TimeRecord: ResolverTypeWrapper<TimeRecordModel>;
   TimeRecordCollection: ResolverTypeWrapper<Omit<TimeRecordCollection, 'timeRecords'> & { timeRecords: Maybe<Array<Maybe<ResolversTypes['TimeRecord']>>> }>;
   TimeRecordCreateInput: TimeRecordCreateInput;
   TimeRecordDeleteInput: TimeRecordDeleteInput;
@@ -427,11 +498,17 @@ export type ResolversParentTypes = ResolversObject<{
   DateTime: Scalars['DateTime'];
   Float: Scalars['Float'];
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
   Query: {};
+  Streak: StreakModel;
+  StreakCollection: Omit<StreakCollection, 'streaks'> & { streaks: Maybe<Array<Maybe<ResolversParentTypes['Streak']>>> };
+  StreakCreateInput: StreakCreateInput;
+  StreakUpdateInput: StreakUpdateInput;
   String: Scalars['String'];
+  StrwakDeleteInput: StrwakDeleteInput;
   Time: Scalars['Time'];
-  TimeRecord: Omit<TimeRecord, 'activity' | 'owner'> & { activity: ResolversParentTypes['Activity'], owner: ResolversParentTypes['User'] };
+  TimeRecord: TimeRecordModel;
   TimeRecordCollection: Omit<TimeRecordCollection, 'timeRecords'> & { timeRecords: Maybe<Array<Maybe<ResolversParentTypes['TimeRecord']>>> };
   TimeRecordCreateInput: TimeRecordCreateInput;
   TimeRecordDeleteInput: TimeRecordDeleteInput;
@@ -497,14 +574,17 @@ export type MutationResolvers<ContextType = GraphqlContext, ParentType extends R
   addActivitiesToCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationAddActivitiesToCategoryArgs, 'input'>>;
   createActivity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<MutationCreateActivityArgs, 'input' | 'userId'>>;
   createCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationCreateCategoryArgs, 'input' | 'userId'>>;
+  createStreak?: Resolver<Maybe<ResolversTypes['Streak']>, ParentType, ContextType, RequireFields<MutationCreateStreakArgs, 'input' | 'userId'>>;
   createTimeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<MutationCreateTimeRecordArgs, 'input' | 'userId'>>;
   createUser?: Resolver<Maybe<ResolversTypes['CreateUserPayload']>, ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'input'>>;
   deleteActivities?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteActivitiesArgs, 'input'>>;
   deleteCategories?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteCategoriesArgs, 'input'>>;
+  deleteStreaks?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteStreaksArgs, 'input'>>;
   deleteTimeRecords?: Resolver<Maybe<Array<Maybe<ResolversTypes['ID']>>>, ParentType, ContextType, RequireFields<MutationDeleteTimeRecordsArgs, 'input'>>;
   removeActivitiesFromCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationRemoveActivitiesFromCategoryArgs, 'input'>>;
   updateActivity?: Resolver<Maybe<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<MutationUpdateActivityArgs, 'activityId' | 'input'>>;
   updateCategory?: Resolver<Maybe<ResolversTypes['Category']>, ParentType, ContextType, RequireFields<MutationUpdateCategoryArgs, 'categoryId' | 'input'>>;
+  updateStreak?: Resolver<Maybe<ResolversTypes['Streak']>, ParentType, ContextType, RequireFields<MutationUpdateStreakArgs, 'input' | 'streakId'>>;
   updateTimeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<MutationUpdateTimeRecordArgs, 'input' | 'timeRecordId'>>;
   updateUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationUpdateUserArgs, 'input' | 'userId'>>;
 }>;
@@ -516,8 +596,25 @@ export type QueryResolvers<ContextType = GraphqlContext, ParentType extends Reso
   categoryCollection?: Resolver<Maybe<ResolversTypes['CategoryCollection']>, ParentType, ContextType, RequireFields<QueryCategoryCollectionArgs, 'userId'>>;
   getUser?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUserArgs, 'userId'>>;
   loginUser?: Resolver<ResolversTypes['AuthPayload'], ParentType, ContextType, RequireFields<QueryLoginUserArgs, 'input'>>;
+  streak?: Resolver<Maybe<ResolversTypes['Streak']>, ParentType, ContextType, RequireFields<QueryStreakArgs, 'streakId'>>;
+  streakCollection?: Resolver<Maybe<ResolversTypes['StreakCollection']>, ParentType, ContextType, RequireFields<QueryStreakCollectionArgs, 'userId'>>;
   timeRecord?: Resolver<Maybe<ResolversTypes['TimeRecord']>, ParentType, ContextType, RequireFields<QueryTimeRecordArgs, 'timeRecordId'>>;
   timeRecordCollection?: Resolver<Maybe<ResolversTypes['TimeRecordCollection']>, ParentType, ContextType, RequireFields<QueryTimeRecordCollectionArgs, 'activityId'>>;
+}>;
+
+export type StreakResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['Streak'] = ResolversParentTypes['Streak']> = ResolversObject<{
+  count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  endDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  startDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type StreakCollectionResolvers<ContextType = GraphqlContext, ParentType extends ResolversParentTypes['StreakCollection'] = ResolversParentTypes['StreakCollection']> = ResolversObject<{
+  streaks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Streak']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export interface TimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Time'], any> {
@@ -559,6 +656,8 @@ export type Resolvers<ContextType = GraphqlContext> = ResolversObject<{
   DateTime?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Streak?: StreakResolvers<ContextType>;
+  StreakCollection?: StreakCollectionResolvers<ContextType>;
   Time?: GraphQLScalarType;
   TimeRecord?: TimeRecordResolvers<ContextType>;
   TimeRecordCollection?: TimeRecordCollectionResolvers<ContextType>;

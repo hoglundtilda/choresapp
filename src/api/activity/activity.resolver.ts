@@ -7,6 +7,7 @@ import {
 
 export const activityQueryResolver: QueryResolvers = {
   activityCollection: async (_, { userId }, ctx) => {
+    console.log({ userId })
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!userId)
       throw new UserInputError('No userId provided', {
@@ -19,6 +20,7 @@ export const activityQueryResolver: QueryResolvers = {
           owner: true
         }
       })
+      console.log({ activities })
       return { activities }
     } catch (e) {
       throw new Error(e)
@@ -122,7 +124,9 @@ export const activityObjectResolver: Resolvers = {
     startDate: (parent) => parent.startDate,
     endDate: (parent) => parent.endDate,
     owner: (parent, _, ctx) => {
-      return ctx.prisma.user.findUniqueOrThrow({ where: { id: parent.userId } })
+      return ctx.prisma.user.findUniqueOrThrow({
+        where: { id: parent.userId! }
+      })
     },
     category: (parent, _, ctx) => {
       if (!parent.categoryId) return null

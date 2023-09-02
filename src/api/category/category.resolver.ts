@@ -7,6 +7,7 @@ import {
 
 export const categoryQueryResolver: QueryResolvers = {
   categoryCollection: async (_, { userId }, ctx) => {
+    console.log('here 1')
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
     if (!userId)
       throw new UserInputError('No userId provided', {
@@ -28,6 +29,7 @@ export const categoryQueryResolver: QueryResolvers = {
   },
 
   category: async (_, { categoryId }, ctx) => {
+    console.log('here 2')
     if (!ctx.user) throw new AuthenticationError('Must be signed in')
 
     try {
@@ -145,7 +147,9 @@ export const categoryObjectResolver: Resolvers = {
     id: (parent) => parent.id,
     name: (parent) => parent.name,
     owner: (parent, _, ctx) => {
-      return ctx.prisma.user.findUniqueOrThrow({ where: { id: parent.userId } })
+      return ctx.prisma.user.findUniqueOrThrow({
+        where: { id: parent.userId! }
+      })
     },
     activities: (parent, _, ctx) => {
       return ctx.prisma.activity.findMany({ where: { categoryId: parent.id } })

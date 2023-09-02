@@ -1,51 +1,37 @@
 import * as http from 'http'
 
-import express from 'express'
-// import session from "express-session";
-// import passport from "passport";
-import { configureApp } from './app'
-// import { ConnectPrismaClient } from './db/db.connection'
-import { logger } from './lib'
-import { createApolloServer } from './api/graphql.server'
 import { RequiredSettings } from './settings/env'
-
-// import { initPassport } from './services/authService/Passport.Strategy';
+import { configureApp } from './app'
+import cors from 'cors'
+import { createApolloServer } from './api/graphql.server'
+import express from 'express'
+import { logger } from './lib'
 
 export const startServer = async () => {
   try {
     const PORT = RequiredSettings.port
-
-    // await ConnectPrismaClient()
-
     const app = express()
     let httpServer
     try {
+      app.use(
+        cors({
+          origin: '*'
+        })
+      )
       httpServer = http.createServer(app)
-      // app.use(
-      //   session({
-      //     resave: false,
-      //     saveUninitialized: true,
-      //     secret: RequiredSettings.sessionSecret || 'secret',
-      //   })
-      // );
-      //init passport
-      // app.use(passport.initialize());
-      // app.use(passport.session());
 
       const apolloServer = createApolloServer(httpServer)
 
       await configureApp(app, apolloServer)
-      httpServer.listen(PORT)
+      httpServer.listen({
+        port: PORT,
+        host: '0.0.0.0'
+      })
     } catch (e) {
       console.error('Error', e)
     }
-    // app.get('/auth/google', passport.authenticate('google', { scope: ['profile'] }));
-    // app.get('/auth/google/callback', passport.authenticate('google', {
-    //   successRedirect: 'http://localhost:3000/graphql',
-    //   failureRedirect: 'http://localhost:3000/graphql',
-    // }));
 
-    logger.info(`Server started: http://localhost:${PORT}`)
+    logger.info(`Server started on port: ${PORT}`)
 
     return httpServer
   } catch (e) {

@@ -106,8 +106,16 @@ export const timeRecordObjectResolver: Resolvers = {
     date: (parent) => parent.date,
     createdAt: (parent) => parent.createdAt,
     updatedAt: (parent) => parent.updatedAt,
-    owner: (parent) => parent.owner,
-    activity: (parent) => parent.activity
+    owner: (parent, _, ctx) => {
+      return ctx.prisma.user.findUniqueOrThrow({
+        where: { id: parent.userId! }
+      })
+    },
+    activity: (parent, _, ctx) => {
+      return ctx.prisma.activity.findUniqueOrThrow({
+        where: { id: parent.activityId! }
+      })
+    }
   },
   TimeRecordCollection: {
     timeRecords: (parent) => parent.timeRecords

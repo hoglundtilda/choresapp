@@ -4,6 +4,7 @@ import { PrismaClient } from '@prisma/client'
 // import { User } from "src/_generated/graphql"
 
 export const getUser = async (userId: string, prisma: PrismaClient) => {
+  console.log('here')
   try {
     const user = await prisma.user.findUnique({
       where: {

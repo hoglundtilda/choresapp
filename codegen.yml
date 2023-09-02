@@ -22,6 +22,8 @@ generates:
         User: '../../node_modules/.prisma/client#User'
         Category: '../../node_modules/.prisma/client#Category'
         Activity: '../../node_modules/.prisma/client#Activity'
+        TimeRecord: '../../node_modules/.prisma/client#TimeRecord'
+        Streak: '../../node_modules/.prisma/client#Streak'
 
 config:
   contextType: ../types/Context.type#GraphqlContext
