@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-core'
+import { gql } from 'apollo-server-core';
 
 export const userSchema = gql`
   type Query {
@@ -41,5 +41,5 @@ export const userSchema = gql`
   input UserUpdateInput {
     name: String
   }
-`
+`;
 

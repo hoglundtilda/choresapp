@@ -1,41 +1,27 @@
 {
   "compilerOptions": {
-    "lib": ["ESNext", "dom"],
+    "target": "esnext",
+    "module": "commonjs",
+    "lib": ["es2022", "es2021.promise", "esnext"],
     "outDir": "build",
     "removeComments": true,
-    "target": "ES6",
-    // "target": "esnext",
-    "module": "commonjs",
     "baseUrl": ".",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-
-    // "paths": {
-    //   "@graphql/*": ["src/schema/*"],
-    //   "types/*": ["src/types/*"],
-    //   "@db/*": ["src/db/*"],
-    //   "@settings/*": ["src/settings/*"],
-    //   "@services/*": ["src/services/*"],
-    //   "@utils/*": ["src/utils/*"]
-    // },
-
     "sourceMap": true,
     "sourceRoot": "/",
-
-    "alwaysStrict": true,
-    "allowUnreachableCode": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
-
+    "strict": true,
     "noImplicitReturns": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
     "typeRoots": ["node_modules/@types"]
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", ".eslintrc.js", "eslint.config.mjs"],
   "exclude": ["node_modules/**/*", "services/authService/Passport.Strategy.ts"]
 }
+

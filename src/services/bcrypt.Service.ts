@@ -1,33 +1,33 @@
-const bcrypt = require('bcrypt')
-const saltRounds = 12
+import bcrypt from 'bcrypt';
+const saltRounds = 12;
 
 export const createPassword = async (pw: string) => {
   const hashedPassword: string = await new Promise((resolve, reject) => {
     bcrypt.hash(pw, saltRounds, function (e: Error, hash: string) {
-      if (e) reject(e)
-      resolve(hash)
-    })
-  })
+      if (e) reject(e);
+      resolve(hash);
+    });
+  });
 
-  return hashedPassword
-}
+  return hashedPassword;
+};
 
 export const comparePassword = async (
   passwordPayload: string,
-  storedPassword: string
+  storedPassword: string,
 ) => {
   const result: boolean = await new Promise((resolve, reject) => {
     bcrypt.compare(
       passwordPayload,
       storedPassword,
       function (e: Error, res: any) {
-        if (e) reject(e)
+        if (e) reject(e);
 
-        resolve(res)
-      }
-    )
-  })
+        resolve(res);
+      },
+    );
+  });
 
-  return result
-}
+  return result;
+};
 

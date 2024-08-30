@@ -1,44 +1,45 @@
-import * as http from 'http'
+import * as http from 'http';
 
-import { RequiredSettings } from './settings/env'
-import { configureApp } from './app'
-import cors from 'cors'
-import { createApolloServer } from './api/graphql.server'
-import express from 'express'
-import { logger } from './lib'
+import cors from 'cors';
+import express from 'express';
+
+import { createApolloServer } from './api/graphql.server';
+import { configureApp } from './app';
+import { logger } from './lib';
+import { RequiredSettings } from './settings/env';
 
 export const startServer = async () => {
   try {
-    const PORT = RequiredSettings.port
-    const app = express()
-    let httpServer
+    const PORT = RequiredSettings.port;
+    const app = express();
+    let httpServer;
     try {
       app.use(
         cors({
-          origin: '*'
-        })
-      )
-      httpServer = http.createServer(app)
+          origin: '*',
+        }),
+      );
+      httpServer = http.createServer(app);
 
-      const apolloServer = createApolloServer(httpServer)
+      const apolloServer = createApolloServer(httpServer);
 
-      await configureApp(app, apolloServer)
+      await configureApp(app, apolloServer);
       httpServer.listen({
         port: PORT,
-        host: '0.0.0.0'
-      })
+        host: '0.0.0.0',
+      });
     } catch (e) {
-      console.error('Error', e)
+      console.error('Error', e);
     }
 
-    logger.info(`Server started on port: ${PORT}`)
+    logger.info(`Server started on port: ${PORT}`);
 
-    return httpServer
+    return httpServer;
   } catch (e) {
-    logger.info('Error starting server', e)
-    return e
+    logger.info('Error starting server', e);
+    return e;
   }
-}
+};
 
-export default startServer()
+export default startServer();
 

@@ -1,31 +1,30 @@
 import {
   activityMutationResolver,
   activityObjectResolver,
-  activityQueryResolver
-} from './activity/activity.resolver'
+  activityQueryResolver,
+} from './activity/activity.resolver';
 import {
   categoryMutationResolver,
   categoryObjectResolver,
-  categoryQueryResolver
-} from './category/category.resolver'
+  categoryQueryResolver,
+} from './category/category.resolver';
+import { sharedSchemaResolver } from './shared/shared.resolver';
 import {
   streakMutationResolver,
   streakObjectResolver,
-  streakQueryResolver
-} from './streak/streak.resolver'
+  streakQueryResolver,
+} from './streak/streak.resolver';
 import {
   timeRecordMutationResolver,
   timeRecordObjectResolver,
-  timeRecordQueryResolver
-} from './timeRecord/timeRecord.resolver'
+  timeRecordQueryResolver,
+} from './timeRecord/timeRecord.resolver';
 import {
   userMutationResolver,
   userObjectResolver,
-  userQueryResolver
-} from './user/user.resolver'
-
-import { Resolvers } from '../_generated/graphql'
-import { sharedSchemaResolver } from './shared/shared.resolver'
+  userQueryResolver,
+} from './user/user.resolver';
+import { Resolvers } from '../_generated/graphql';
 
 export const resolvers: Resolvers = {
   Query: {
@@ -33,7 +32,7 @@ export const resolvers: Resolvers = {
     ...categoryQueryResolver,
     ...activityQueryResolver,
     ...timeRecordQueryResolver,
-    ...streakQueryResolver
+    ...streakQueryResolver,
   },
 
   Mutation: {
@@ -41,7 +40,7 @@ export const resolvers: Resolvers = {
     ...categoryMutationResolver,
     ...activityMutationResolver,
     ...timeRecordMutationResolver,
-    ...streakMutationResolver
+    ...streakMutationResolver,
   },
 
   ...userObjectResolver,
@@ -49,6 +48,6 @@ export const resolvers: Resolvers = {
   ...activityObjectResolver,
   ...timeRecordObjectResolver,
   ...streakObjectResolver,
-  ...sharedSchemaResolver
-}
+  ...sharedSchemaResolver,
+};
 

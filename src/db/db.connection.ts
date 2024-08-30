@@ -1,14 +1,15 @@
-import { PrismaClient } from '@prisma/client'
-import { logger } from '../lib'
+import { PrismaClient } from '@prisma/client';
 
-export const prisma = new PrismaClient()
+import { logger } from '../lib';
+
+export const prisma = new PrismaClient();
 export const ConnectPrismaClient = async () => {
   try {
-    await prisma.$connect()
-    logger.info('Prisma connection established')
+    await prisma.$connect();
+    logger.info('Prisma connection established');
   } catch (e) {
-    logger.info('Error starting prisma client', e)
-    throw e
+    logger.info('Error starting prisma client', e);
+    throw e;
   }
-}
-export { }
+};
+export { };

@@ -1,19 +1,19 @@
-import * as http from 'http'
+import * as http from 'http';
 
+import { PrismaClient } from '@prisma/client';
 import {
   ApolloServerPluginDrainHttpServer,
-  ApolloServerPluginLandingPageLocalDefault
-} from 'apollo-server-core'
-import { getUser, jwtVerify } from '../services'
+  ApolloServerPluginLandingPageLocalDefault,
+} from 'apollo-server-core';
+import { ApolloServer } from 'apollo-server-express';
 
-import { ApolloServer } from 'apollo-server-express'
-import { GraphqlContext } from '../types/Context.type'
-import { PrismaClient } from '@prisma/client'
 // import { RequiredSettings } from '../settings/env'
-import { resolvers } from './resolvers'
-import { typeDefs } from './typeDefs'
+import { resolvers } from './resolvers';
+import { typeDefs } from './typeDefs';
+import { getUser, jwtVerify } from '../services';
+import { GraphqlContext } from '../types/Context.type';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 export const createApolloServer = (httpServer: http.Server) => {
   const server = new ApolloServer({
     typeDefs: typeDefs,
@@ -26,27 +26,27 @@ export const createApolloServer = (httpServer: http.Server) => {
       //   ? ApolloServerPluginLandingPageGraphQLPlayground()
       //   : ApolloServerPluginLandingPageLocalDefault({ footer: false }),
       ApolloServerPluginLandingPageLocalDefault({ footer: false }),
-      ApolloServerPluginDrainHttpServer({ httpServer })
+      ApolloServerPluginDrainHttpServer({ httpServer }),
     ],
 
     context: async ({ req }) => {
-      let user = null
-      const authHeader = req.headers.authorization
+      let user = null;
+      const authHeader = req.headers.authorization;
 
       if (authHeader) {
-        const parts = authHeader.split(' ')
+        const parts = authHeader.split(' ');
 
         if (parts.length === 2 && parts[0] === 'Bearer') {
-          const token = parts[1]
-          const userId = jwtVerify(token!)
-          user = userId ? await getUser(userId, prisma) : null
+          const token = parts[1];
+          const userId = jwtVerify(token!);
+          user = userId ? await getUser(userId, prisma) : null;
         }
       }
 
-      return { user, prisma } as GraphqlContext
-    }
-  })
+      return { user, prisma } as GraphqlContext;
+    },
+  });
 
-  return server
-}
+  return server;
+};
 

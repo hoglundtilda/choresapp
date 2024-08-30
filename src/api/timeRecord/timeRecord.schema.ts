@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-core'
+import { gql } from 'apollo-server-core';
 
 export const timeRecordSchema = gql`
   extend type Query {
@@ -44,5 +44,5 @@ export const timeRecordSchema = gql`
   input TimeRecordDeleteInput {
     timeRecordIds: [ID!]!
   }
-`
+`;
 
