@@ -1,9 +1,7 @@
-/* eslint-env node */
 module.exports = {
-  singleQuote: true,
-  semi: false,
-  tabWidth: 2,
+  arrowParens: 'always',
+  bracketSameLine: true,
   bracketSpacing: true,
-  printWidth: 80,
-  trailingComma: 'none'
-}
+  singleQuote: true,
+  trailingComma: 'all',
+};

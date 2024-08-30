@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-core'
+import { gql } from 'apollo-server-core';
 
 export const streakSchema = gql`
   extend type Query {
@@ -42,5 +42,5 @@ export const streakSchema = gql`
   input StrwakDeleteInput {
     streakIds: [ID!]!
   }
-`
+`;
 

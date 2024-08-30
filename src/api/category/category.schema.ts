@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-core'
+import { gql } from 'apollo-server-core';
 
 export const categorySchema = gql`
   extend type Query {
@@ -47,5 +47,5 @@ export const categorySchema = gql`
     categoryIds: [ID!]!
     cascade: Boolean
   }
-`
+`;
 

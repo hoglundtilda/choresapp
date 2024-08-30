@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server-core'
+import { gql } from 'apollo-server-core';
 
 export const activitySchema = gql`
   extend type Query {
@@ -45,5 +45,5 @@ export const activitySchema = gql`
     activityIds: [ID!]!
     cascade: Boolean
   }
-`
+`;
 

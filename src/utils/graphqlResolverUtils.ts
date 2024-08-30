@@ -1,24 +1,25 @@
 import {
-  QueryResolvers,
   MutationResolvers,
-  Resolvers
-} from '../_generated/graphql'
+  QueryResolvers,
+  Resolvers,
+} from '../_generated/graphql';
 
 //  TODO Understand why this would be prefered to use
 //       and why it doesnt work in my case
 
 export function asPartialQueryResolver<
-  T extends Partial<Required<QueryResolvers>>
+  T extends Partial<Required<QueryResolvers>>,
 >(t: T) {
-  return t
+  return t;
 }
 
 export function asPartialMutationResolver<T extends Partial<MutationResolvers>>(
-  t: T
+  t: T,
 ) {
-  return t
+  return t;
 }
 
 export function asPartialObjectResolver<T extends Partial<Resolvers>>(t: T) {
-  return t
+  return t;
 }
+

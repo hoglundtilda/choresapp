@@ -1,5 +1,2 @@
-*.yaml
-*.sql
-*.md
-
-scripts
+tsconfig.json
+.vscode/extensions.json

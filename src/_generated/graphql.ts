@@ -1,5 +1,6 @@
 /* tslint:disable */
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
+
 import { User as UserModel, Category as CategoryModel, Activity as ActivityModel, TimeRecord as TimeRecordModel, Streak as StreakModel } from '../../node_modules/.prisma/client';
 import { GraphqlContext } from '../types/Context.type';
 export type Maybe<T> = T | null;

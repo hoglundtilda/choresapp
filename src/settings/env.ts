@@ -1,8 +1,8 @@
 const ensureEnv = (key: string): string => {
-  const value = process.env[key]
-  if (!value) throw new Error(`Required env ${key} is not set`)
-  return value
-}
+  const value = process.env[key];
+  if (!value) throw new Error(`Required env ${key} is not set`);
+  return value;
+};
 
 export const RequiredSettings: Record<string, string> = {
   environment: ensureEnv('NODE_ENV'),
@@ -17,8 +17,8 @@ export const RequiredSettings: Record<string, string> = {
   // sessionSecret: ensureEnv('SESSION_SECRET'),
   privateKeyFile: ensureEnv('PRIVATE_KEY_FILE'),
   privateKeyPassphrase: ensureEnv('PRIVATE_KEY_PASSPHRASE'),
-  publicKeyFile: ensureEnv('PUBLIC_KEY_FILE')
-}
+  publicKeyFile: ensureEnv('PUBLIC_KEY_FILE'),
+};
 
-export const OptionalSettings: Record<string, string | undefined> = {}
+export const OptionalSettings: Record<string, string | undefined> = {};
 
