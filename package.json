@@ -21,7 +21,7 @@
     "@types/node": "^18.13.0",
     "@types/pino": "^7.0.5",
     "apollo-datasource": "^3.3.2",
-    "apollo-server-core": "3.11.1",
+    "apollo-server-core": "^3.13.0",
     "apollo-server-express": "3.11.1",
     "apollo-server-plugin-base": "^3.7.1",
     "bcrypt": "^5.1.0",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@graphql-codegen/add": "^4.0.0",
-    "@graphql-codegen/cli": "^3.0.0",
+    "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/introspection": "^3.0.0",
     "@graphql-codegen/typescript": "^3.0.0",
     "@graphql-codegen/typescript-resolvers": "^3.0.0",
@@ -62,7 +62,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-standard": "^5.0.0",
-    "nodemon": "^2.0.20",
+    "nodemon": "^3.1.4",
     "prisma": "^4.10.1",
     "ts-node": "^10.9.1"
   },
