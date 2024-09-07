@@ -1,6 +1,6 @@
 import fs from 'fs'
-const jwt = require('jsonwebtoken')
 import { keys } from '../settings/keys'
+const jwt = require('jsonwebtoken')
 
 const publicKey = fs.readFileSync(keys.publicKeyFile)
 const privateKey = fs.readFileSync(keys.privateKeyFile)

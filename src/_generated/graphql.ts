@@ -7,37 +7,39 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
-  Date: Date;
-  DateTime: Date;
-  Time: Date;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
+  Date: { input: Date; output: Date; }
+  DateTime: { input: Date; output: Date; }
+  Time: { input: Date; output: Date; }
 };
 
 export type ActivitiesDeleteInput = {
-  activityIds: Array<Scalars['ID']>;
-  cascade?: InputMaybe<Scalars['Boolean']>;
+  activityIds: Array<Scalars['ID']['input']>;
+  cascade?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Activity = {
   __typename?: 'Activity';
   category: Maybe<Category>;
-  createdAt: Scalars['DateTime'];
-  endDate: Maybe<Scalars['DateTime']>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  createdAt: Scalars['DateTime']['output'];
+  endDate: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   owner: User;
-  startDate: Scalars['DateTime'];
+  startDate: Scalars['DateTime']['output'];
   timeRecords: Maybe<Array<Maybe<TimeRecord>>>;
-  totalTimeTraced: Scalars['Float'];
-  updatedAt: Maybe<Scalars['DateTime']>;
+  totalTimeTraced: Scalars['Float']['output'];
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type ActivityCollection = {
@@ -46,39 +48,39 @@ export type ActivityCollection = {
 };
 
 export type ActivityCreateInput = {
-  categoryId: Scalars['ID'];
-  name: Scalars['String'];
-  startDate: Scalars['DateTime'];
+  categoryId: Scalars['ID']['input'];
+  name: Scalars['String']['input'];
+  startDate: Scalars['DateTime']['input'];
 };
 
 export type ActivityUpdateInput = {
-  endDate?: InputMaybe<Scalars['DateTime']>;
-  name?: InputMaybe<Scalars['String']>;
-  startDate: Scalars['DateTime'];
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  startDate: Scalars['DateTime']['input'];
 };
 
 export type AuthPayload = {
   __typename?: 'AuthPayload';
-  token: Scalars['String'];
-  userId: Scalars['ID'];
+  token: Scalars['String']['output'];
+  userId: Scalars['ID']['output'];
 };
 
 export type CategoriesDeleteInput = {
-  cascade?: InputMaybe<Scalars['Boolean']>;
-  categoryIds: Array<Scalars['ID']>;
+  cascade?: InputMaybe<Scalars['Boolean']['input']>;
+  categoryIds: Array<Scalars['ID']['input']>;
 };
 
 export type Category = {
   __typename?: 'Category';
   activities: Maybe<Array<Maybe<Activity>>>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   owner: User;
 };
 
 export type CategoryAddActivitiesInput = {
-  activityIds: Array<Scalars['ID']>;
-  categoryId: Scalars['ID'];
+  activityIds: Array<Scalars['ID']['input']>;
+  categoryId: Scalars['ID']['input'];
 };
 
 export type CategoryCollection = {
@@ -87,21 +89,21 @@ export type CategoryCollection = {
 };
 
 export type CategoryCreateInput = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 export type CategoryRemoveActivityInput = {
-  activityIds: Array<Scalars['ID']>;
-  categoryId: Scalars['ID'];
+  activityIds: Array<Scalars['ID']['input']>;
+  categoryId: Scalars['ID']['input'];
 };
 
 export type CategoryUpdateInput = {
-  name: Scalars['String'];
+  name: Scalars['String']['input'];
 };
 
 export type CreateUserPayload = {
   __typename?: 'CreateUserPayload';
-  email: Maybe<Scalars['String']>;
+  email: Maybe<Scalars['String']['output']>;
 };
 
 export type Mutation = {
@@ -112,10 +114,10 @@ export type Mutation = {
   createStreak: Maybe<Streak>;
   createTimeRecord: Maybe<TimeRecord>;
   createUser: Maybe<CreateUserPayload>;
-  deleteActivities: Maybe<Array<Maybe<Scalars['ID']>>>;
-  deleteCategories: Maybe<Array<Maybe<Scalars['ID']>>>;
-  deleteStreaks: Maybe<Array<Maybe<Scalars['ID']>>>;
-  deleteTimeRecords: Maybe<Array<Maybe<Scalars['ID']>>>;
+  deleteActivities: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  deleteCategories: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  deleteStreaks: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
+  deleteTimeRecords: Maybe<Array<Maybe<Scalars['ID']['output']>>>;
   removeActivitiesFromCategory: Maybe<Category>;
   updateActivity: Maybe<Activity>;
   updateCategory: Maybe<Category>;
@@ -132,25 +134,25 @@ export type MutationAddActivitiesToCategoryArgs = {
 
 export type MutationCreateActivityArgs = {
   input: ActivityCreateInput;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type MutationCreateCategoryArgs = {
   input: CategoryCreateInput;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type MutationCreateStreakArgs = {
   input: StreakCreateInput;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type MutationCreateTimeRecordArgs = {
   input: TimeRecordCreateInput;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -185,32 +187,32 @@ export type MutationRemoveActivitiesFromCategoryArgs = {
 
 
 export type MutationUpdateActivityArgs = {
-  activityId: Scalars['ID'];
+  activityId: Scalars['ID']['input'];
   input: ActivityUpdateInput;
 };
 
 
 export type MutationUpdateCategoryArgs = {
-  categoryId: Scalars['ID'];
+  categoryId: Scalars['ID']['input'];
   input: CategoryUpdateInput;
 };
 
 
 export type MutationUpdateStreakArgs = {
   input: StreakUpdateInput;
-  streakId: Scalars['ID'];
+  streakId: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateTimeRecordArgs = {
   input: TimeRecordUpdateInput;
-  timeRecordId: Scalars['ID'];
+  timeRecordId: Scalars['ID']['input'];
 };
 
 
 export type MutationUpdateUserArgs = {
   input: UserUpdateInput;
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 export type Query = {
@@ -229,27 +231,27 @@ export type Query = {
 
 
 export type QueryActivityArgs = {
-  activityId: Scalars['ID'];
+  activityId: Scalars['ID']['input'];
 };
 
 
 export type QueryActivityCollectionArgs = {
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type QueryCategoryArgs = {
-  categoryId: Scalars['ID'];
+  categoryId: Scalars['ID']['input'];
 };
 
 
 export type QueryCategoryCollectionArgs = {
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type QueryGetUserArgs = {
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
@@ -259,32 +261,32 @@ export type QueryLoginUserArgs = {
 
 
 export type QueryStreakArgs = {
-  streakId: Scalars['ID'];
+  streakId: Scalars['ID']['input'];
 };
 
 
 export type QueryStreakCollectionArgs = {
-  userId: Scalars['ID'];
+  userId: Scalars['ID']['input'];
 };
 
 
 export type QueryTimeRecordArgs = {
-  timeRecordId: Scalars['ID'];
+  timeRecordId: Scalars['ID']['input'];
 };
 
 
 export type QueryTimeRecordCollectionArgs = {
-  activityId: Scalars['ID'];
+  activityId: Scalars['ID']['input'];
 };
 
 export type Streak = {
   __typename?: 'Streak';
-  count: Scalars['Int'];
-  endDate: Maybe<Scalars['DateTime']>;
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  count: Scalars['Int']['output'];
+  endDate: Maybe<Scalars['DateTime']['output']>;
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
   owner: User;
-  startDate: Maybe<Scalars['DateTime']>;
+  startDate: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type StreakCollection = {
@@ -293,32 +295,32 @@ export type StreakCollection = {
 };
 
 export type StreakCreateInput = {
-  count?: InputMaybe<Scalars['Int']>;
-  endDate?: InputMaybe<Scalars['DateTime']>;
-  name: Scalars['String'];
-  startDate?: InputMaybe<Scalars['DateTime']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  name: Scalars['String']['input'];
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type StreakUpdateInput = {
-  count?: InputMaybe<Scalars['Int']>;
-  endDate?: InputMaybe<Scalars['DateTime']>;
-  name?: InputMaybe<Scalars['String']>;
-  startDate?: InputMaybe<Scalars['DateTime']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  endDate?: InputMaybe<Scalars['DateTime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  startDate?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type StrwakDeleteInput = {
-  streakIds: Array<Scalars['ID']>;
+  streakIds: Array<Scalars['ID']['input']>;
 };
 
 export type TimeRecord = {
   __typename?: 'TimeRecord';
   activity: Activity;
-  amount: Scalars['Float'];
-  createdAt: Scalars['DateTime'];
-  date: Scalars['DateTime'];
-  id: Scalars['ID'];
+  amount: Scalars['Float']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  date: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
   owner: User;
-  updatedAt: Maybe<Scalars['DateTime']>;
+  updatedAt: Maybe<Scalars['DateTime']['output']>;
 };
 
 export type TimeRecordCollection = {
@@ -327,42 +329,42 @@ export type TimeRecordCollection = {
 };
 
 export type TimeRecordCreateInput = {
-  activityId: Scalars['ID'];
-  amount: Scalars['Float'];
-  date: Scalars['DateTime'];
+  activityId: Scalars['ID']['input'];
+  amount: Scalars['Float']['input'];
+  date: Scalars['DateTime']['input'];
 };
 
 export type TimeRecordDeleteInput = {
-  timeRecordIds: Array<Scalars['ID']>;
+  timeRecordIds: Array<Scalars['ID']['input']>;
 };
 
 export type TimeRecordUpdateInput = {
-  activityId: Scalars['ID'];
-  amount?: InputMaybe<Scalars['Float']>;
-  date?: InputMaybe<Scalars['DateTime']>;
+  activityId: Scalars['ID']['input'];
+  amount?: InputMaybe<Scalars['Float']['input']>;
+  date?: InputMaybe<Scalars['DateTime']['input']>;
 };
 
 export type User = {
   __typename?: 'User';
-  createdAt: Scalars['DateTime'];
-  email: Scalars['String'];
-  id: Scalars['ID'];
-  name: Scalars['String'];
+  createdAt: Scalars['DateTime']['output'];
+  email: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type UserCreateInput = {
-  email: Scalars['String'];
-  name: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type UserLoginInput = {
-  email: Scalars['String'];
-  password: Scalars['String'];
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type UserUpdateInput = {
-  name?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -443,7 +445,7 @@ export type ResolversTypes = ResolversObject<{
   ActivityCreateInput: ActivityCreateInput;
   ActivityUpdateInput: ActivityUpdateInput;
   AuthPayload: ResolverTypeWrapper<AuthPayload>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CategoriesDeleteInput: CategoriesDeleteInput;
   Category: ResolverTypeWrapper<CategoryModel>;
   CategoryAddActivitiesInput: CategoryAddActivitiesInput;
@@ -452,20 +454,20 @@ export type ResolversTypes = ResolversObject<{
   CategoryRemoveActivityInput: CategoryRemoveActivityInput;
   CategoryUpdateInput: CategoryUpdateInput;
   CreateUserPayload: ResolverTypeWrapper<CreateUserPayload>;
-  Date: ResolverTypeWrapper<Scalars['Date']>;
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
+  Date: ResolverTypeWrapper<Scalars['Date']['output']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']['output']>;
+  Float: ResolverTypeWrapper<Scalars['Float']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   Streak: ResolverTypeWrapper<StreakModel>;
   StreakCollection: ResolverTypeWrapper<Omit<StreakCollection, 'streaks'> & { streaks: Maybe<Array<Maybe<ResolversTypes['Streak']>>> }>;
   StreakCreateInput: StreakCreateInput;
   StreakUpdateInput: StreakUpdateInput;
-  String: ResolverTypeWrapper<Scalars['String']>;
+  String: ResolverTypeWrapper<Scalars['String']['output']>;
   StrwakDeleteInput: StrwakDeleteInput;
-  Time: ResolverTypeWrapper<Scalars['Time']>;
+  Time: ResolverTypeWrapper<Scalars['Time']['output']>;
   TimeRecord: ResolverTypeWrapper<TimeRecordModel>;
   TimeRecordCollection: ResolverTypeWrapper<Omit<TimeRecordCollection, 'timeRecords'> & { timeRecords: Maybe<Array<Maybe<ResolversTypes['TimeRecord']>>> }>;
   TimeRecordCreateInput: TimeRecordCreateInput;
@@ -485,7 +487,7 @@ export type ResolversParentTypes = ResolversObject<{
   ActivityCreateInput: ActivityCreateInput;
   ActivityUpdateInput: ActivityUpdateInput;
   AuthPayload: AuthPayload;
-  Boolean: Scalars['Boolean'];
+  Boolean: Scalars['Boolean']['output'];
   CategoriesDeleteInput: CategoriesDeleteInput;
   Category: CategoryModel;
   CategoryAddActivitiesInput: CategoryAddActivitiesInput;
@@ -494,20 +496,20 @@ export type ResolversParentTypes = ResolversObject<{
   CategoryRemoveActivityInput: CategoryRemoveActivityInput;
   CategoryUpdateInput: CategoryUpdateInput;
   CreateUserPayload: CreateUserPayload;
-  Date: Scalars['Date'];
-  DateTime: Scalars['DateTime'];
-  Float: Scalars['Float'];
-  ID: Scalars['ID'];
-  Int: Scalars['Int'];
+  Date: Scalars['Date']['output'];
+  DateTime: Scalars['DateTime']['output'];
+  Float: Scalars['Float']['output'];
+  ID: Scalars['ID']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   Streak: StreakModel;
   StreakCollection: Omit<StreakCollection, 'streaks'> & { streaks: Maybe<Array<Maybe<ResolversParentTypes['Streak']>>> };
   StreakCreateInput: StreakCreateInput;
   StreakUpdateInput: StreakUpdateInput;
-  String: Scalars['String'];
+  String: Scalars['String']['output'];
   StrwakDeleteInput: StrwakDeleteInput;
-  Time: Scalars['Time'];
+  Time: Scalars['Time']['output'];
   TimeRecord: TimeRecordModel;
   TimeRecordCollection: Omit<TimeRecordCollection, 'timeRecords'> & { timeRecords: Maybe<Array<Maybe<ResolversParentTypes['TimeRecord']>>> };
   TimeRecordCreateInput: TimeRecordCreateInput;
